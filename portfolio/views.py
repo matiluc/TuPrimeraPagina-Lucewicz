@@ -5,4 +5,4 @@ def saludar(request):
     return HttpResponse("Hola desde Django")
 
 def index(request):
-    return render(request, "portfolio/index.html")
+    return render(request, "portfolio/padre.html")
