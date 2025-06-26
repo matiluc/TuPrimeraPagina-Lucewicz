@@ -20,6 +20,5 @@ from portfolio import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('saludar/', views.saludar),
-    path('', views.index)
+    path('', views.index, name='index'),
 ]
