@@ -1,0 +1,22 @@
+{%  extends 'portfolio/padre.html' %} 
+
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block contenido %}
+
+<h2>Recetas</h2>
+{% for receta in recetas %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5>{{ receta.titulo }}</h5>
+            {% if receta.foto %}
+                <img src="{{ receta.foto.url }}" alt="Foto de {{ receta.titulo }}" class="img-fluid">
+            {% endif %}
+            <p>{{ receta.receta }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
