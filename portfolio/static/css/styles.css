@@ -20,6 +20,12 @@
   height: 100%;
 }
 
+
+html {
+  scrollbar-gutter: stable !important;
+  height: 100%;
+}
+
 :root {
   --bs-blue: #1e30f3;
   --bs-indigo: #6610f2;
@@ -394,6 +400,10 @@ button,
 [type=reset],
 [type=submit] {
   -webkit-appearance: button;
+  appearance: button;
+  appearance: button;
+  appearance: button;
+  appearance: button;
 }
 button:not(:disabled),
 [type=button]:not(:disabled),
@@ -452,6 +462,7 @@ legend + * {
 [type=search] {
   outline-offset: -2px;
   -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 /* rtl:raw:
@@ -473,6 +484,7 @@ legend + * {
 ::file-selector-button {
   font: inherit;
   -webkit-appearance: button;
+  appearance: button;
 }
 
 output {
@@ -11572,6 +11584,7 @@ html {
 .text-gradient {
   background: -webkit-linear-gradient(315deg, #1e30f3 0%, #e21e80 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
