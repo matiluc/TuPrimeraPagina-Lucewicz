@@ -9,3 +9,6 @@ def padre(request):
 
 def index(request):
     return render(request, "portfolio/index.html")
+
+def recetas(request):
+    return render(request, "portfolio/recetas.html")
