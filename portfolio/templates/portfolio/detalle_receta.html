@@ -1,0 +1,28 @@
+{% extends 'portfolio/padre.html' %}
+
+{% load static %}
+
+{% block title %}{{ receta.titulo }}{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            {% if receta.foto %}
+                <img src="{{ receta.foto.url }}" class="img-fluid mb-4 rounded" alt="{{ receta.titulo }}">
+            {% endif %}
+
+            <h1 class="mb-3">{{ receta.titulo }}</h1>
+
+            <div class="mb-3">
+                <div class="ck-content">{{ receta.receta|safe }}</div>
+            </div>
+
+            <a href="{% url 'recetas' %}" class="btn btn-secondary mt-4">← Volver a todas las recetas</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

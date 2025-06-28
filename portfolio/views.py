@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecetaForm
 from .models import Receta
 
@@ -15,10 +15,6 @@ def recetas(request):
 def contacto(request):
     return render(request, "portfolio/contacto.html")
 
-def lista_recetas(request):
-    recetas = Receta.objects.all()
-    return render(request, "portfolio/lista_recetas.html", {'recetas': recetas})
-
 def crear_receta(request):
     if request.method == 'POST':
         form = RecetaForm(request.POST, request.FILES)
@@ -28,3 +24,7 @@ def crear_receta(request):
     else:
         form = RecetaForm()
     return render(request, "portfolio/crear_receta.html", {'form': form})
+
+def detalle_receta(request, pk):
+    receta = get_object_or_404(Receta, pk=pk)
+    return render(request, 'portfolio/detalle_receta.html', {'receta': receta})

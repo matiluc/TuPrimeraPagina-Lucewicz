@@ -24,8 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('recetas', views.recetas, name='recetas'),
+    path("receta/<int:pk>/", views.detalle_receta, name="detalle_receta"),
     path('contacto', views.contacto, name='contacto'),
-    path('lista_recetas', views.lista_recetas, name='lista_recetas'),
     path('crear_receta', views.crear_receta, name='crear_receta'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
