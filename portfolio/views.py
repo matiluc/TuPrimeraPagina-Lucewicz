@@ -9,7 +9,8 @@ def index(request):
     return render(request, "portfolio/index.html")
 
 def recetas(request):
-    return render(request, "portfolio/recetas.html")
+    recetas = Receta.objects.all()
+    return render(request, "portfolio/recetas.html", {'recetas': recetas})
 
 def contacto(request):
     return render(request, "portfolio/contacto.html")
