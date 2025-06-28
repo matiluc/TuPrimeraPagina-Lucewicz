@@ -6,11 +6,19 @@
 
 {% block contenido %}
 
-<h2>Crear nueva receta</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Guardar receta</button>
-</form>
+            <section class="py-5">
+                <div class="container px-5">
+                    <h2>Crear nueva receta</h2>
+
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Guardar receta</button>
+                    </form>
+
+                    
+                </div>
+            </section>
 
 {% endblock %}

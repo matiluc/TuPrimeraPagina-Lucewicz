@@ -17,13 +17,7 @@
         {% endif %}
 
         <div class="mb-3">
-            <h4 class="fw-bold">Ingredientes</h4>
-            <div class="ck-content">{{ receta.ingredientes|safe }}</div>
-        </div>
-
-        <div class="mb-3">
-            <h4 class="fw-bold">Elaboración</h4>
-            <div class="ck-content">{{ receta.elaboracion|safe }}</div>
+            <div class="ck-content">{{ receta.receta|safe }}</div>
         </div>
     </div>
 </div>

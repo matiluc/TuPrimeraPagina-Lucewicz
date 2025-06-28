@@ -26,6 +26,7 @@ urlpatterns = [
     path('recetas', views.recetas, name='recetas'),
     path('contacto', views.contacto, name='contacto'),
     path('lista_recetas', views.lista_recetas, name='lista_recetas'),
+    path('crear_receta', views.crear_receta, name='crear_receta'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
