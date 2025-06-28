@@ -12,3 +12,6 @@ def index(request):
 
 def recetas(request):
     return render(request, "portfolio/recetas.html")
+
+def contacto(request):
+    return render(request, "portfolio/contacto.html")
