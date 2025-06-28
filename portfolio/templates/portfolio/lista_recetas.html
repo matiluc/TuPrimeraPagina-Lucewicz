@@ -8,15 +8,25 @@
 
 <h2>Recetas</h2>
 {% for receta in recetas %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5>{{ receta.titulo }}</h5>
-            {% if receta.foto %}
-                <img src="{{ receta.foto.url }}" alt="Foto de {{ receta.titulo }}" class="img-fluid">
-            {% endif %}
-            <p>{{ receta.receta }}</p>
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">{{ receta.titulo }}</h2>
+
+        {% if receta.foto %}
+            <img src="{{ receta.foto.url }}" class="img-fluid mb-3 rounded" style="max-width: 100%; height: auto;">
+        {% endif %}
+
+        <div class="mb-3">
+            <h4 class="fw-bold">Ingredientes</h4>
+            <div class="ck-content">{{ receta.ingredientes|safe }}</div>
+        </div>
+
+        <div class="mb-3">
+            <h4 class="fw-bold">Elaboración</h4>
+            <div class="ck-content">{{ receta.elaboracion|safe }}</div>
         </div>
     </div>
+</div>
 {% endfor %}
 
 {% endblock %}
