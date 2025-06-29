@@ -32,7 +32,8 @@ def index(request):
 # View de recetas + paginación de la pagina de recetas (para ver de a tandas)
 def recetas(request):
     limite = int(request.GET.get('limite', 6))
-    recetas = Receta.objects.all()[:limite]
+    recetas = Receta.objects.order_by('-id')[:limite]
+    # recetas = Receta.objects.all()[:limite]
     todas_las_recetas = Receta.objects.count()
     
     context = {
