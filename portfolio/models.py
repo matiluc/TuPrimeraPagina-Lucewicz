@@ -8,3 +8,8 @@ class Receta(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+class Suscriptor(models.Model):
+    nombre = models.CharField(max_length=30)  # Campo string de 100 caracteres
+    apellido = models.CharField(max_length=30)  # Campo string de 100 caracteres
+    email = models.EmailField()  # Campo de email

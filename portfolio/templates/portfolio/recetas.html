@@ -8,79 +8,83 @@
 
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/blogs/blog-5/assets/css/blog-5.css">
         
-                <div>
                             <!-- Blog 5 - Bootstrap Brain Component -->
-                            <section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
-                            <div class="container px-5">
-                                <div class="row justify-content-md-center">
-                                <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                                    <h2 class="display-5 mb-4 mb-md-5 text-center">def <span style="font-weight: 900;">recetas</span>( ):</h2>
-                                </div>
-                                </div>
-                            </div>
+<section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
+    <div class="container px-5">
+        <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+            <h2 class="display-5 mb-4 mb-md-5 text-center">def <span style="font-weight: 900;">recetas</span>( ):</h2>
+        </div>
+        </div>
+    </div>
 
 
+        <!-- ELEMENTOS RECETAS -->
+        <div class="container px-5 overflow-hidden">
+            <div class="row gy-3 gy-md-4 gx-xl-5 gy-xl-5 gx-xxl-8 gy-xxl-8">
 
 
+                {% for receta in recetas %}
 
-                            <!-- ELEMENTOS RECETAS -->
-                            <div class="container px-5 overflow-hidden">
-                                <div class="row gy-4 gy-md-5 gx-xl-6 gy-xl-6 gx-xxl-9 gy-xxl-9">
-                                    <div class="row gy-4 gy-md-5 gx-xl-6 gy-xl-6 gx-xxl-9 gy-xxl-9">
-                                        {% for receta in recetas %}
-                                        <div class="col-12 col-lg-4">
-                                            <article>
-                                                <div class="card border-0 bg-transparent">
-                                                    <figure class="card-img-top mb-4 overflow-hidden bsb-overlay-hover">
-                                                        <a href="{% url 'detalle_receta' receta.pk %}">
-                                                            <div class="ratio ratio-1x1">
-                                                                {% if receta.foto %}
-                                                                    <img class="img-fluid bsb-scale" loading="lazy" src="{{ receta.foto.url }}" alt="{{ receta.titulo }}" style="object-fit: cover">
-                                                                {% else %}
-                                                                    <img class="img-fluid bsb-scale" loading="lazy" src="{% static 'portfolio/img/imagen_default.jpg' %}" alt="Sin imagen" style="object-fit: cover">
-                                                                {% endif %}
-                                                            </div>
-                                                        </a>
-                                                        <figcaption>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-eye text-white bsb-hover-fadeInLeft" viewBox="0 0 16 16">
-                                                                <path d="..." />
-                                                            </svg>
-                                                            <h4 class="h6 text-white bsb-hover-fadeInRight mt-0">{ A . & , }</h4>
-                                                        </figcaption>
-                                                    </figure>
 
-                                                    <div class="card-body m-0 p-0">
-                                                        <div class="entry-header mb-3">
+                <div class="col-12 col-lg-4">
+                    <article>
+                        <div class="card border-0 bg-transparent">
+                            <figure class="card-img-top mb-3 overflow-hidden bsb-overlay-hover">
+                                <a href="{% url 'detalle_receta' receta.pk %}">
+                                    <div class="ratio ratio-1x1">
 
-                                                            <h2 class="card-title entry-title h4 m-0">
-                                                                <a class="link-dark text-decoration-none" href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a>
-                                                            </h2>
-                                                        </div>
-                                                    </div>
 
-                                                </div>
-                                            </article>
-                                        </div>
-                                        {% endfor %}
+                                        {% if receta.foto %}
+                                            <img class="img-fluid bsb-scale" loading="lazy" src="{{ receta.foto.url }}" alt="{{ receta.titulo }}" style="object-fit: cover">
+                                        {% else %}
+                                            <img class="img-fluid bsb-scale" loading="lazy" src="{% static 'portfolio/img/imagen_default.jpg' %}" alt="Sin imagen" style="object-fit: cover">
+                                        {% endif %}
+
+
                                     </div>
+                                </a>
+                                
+                                <!-- SUPERPOSICION MOUSE -->
+                                <figcaption>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-eye text-white bsb-hover-fadeInLeft" viewBox="0 0 16 16">
+                                        <path d="..." />
+                                    </svg>
+                                    <h4 class="h6 text-white bsb-hover-fadeInRight mt-0">{ A . & , }</h4>
+                                </figcaption>
+                            </figure>
 
+                            <div class="card-body m-0 p-0">
+                                <div class="entry-header mb-3">
+                                    <h2 class="card-title entry-title h4 m-0">
+                                        <a class="link-dark text-decoration-none" href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a>
+                                    </h2>
                                 </div>
                             </div>
-
-
-
-
-
-
-                            <div class="container">
-                                <div class="row">
-                                <div class="col text-center">
-                                    <a href="#!" class="btn btn-secondary mt-4 text-white fw-bold">Ver todas las recetas</a>
-                                </div>
-                                </div>
-                            </div>
-                            </section>
+                        </div>
+                    </article>
                 </div>
+
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+
+
+
+
+
+<!--BOTON RECETAS-->
+    <div class="container">
+        <div class="row">
+        <div class="col text-center">
+            <a href="#!" class="btn btn-secondary mt-5 text-white fw-bold">Ver todas las recetas</a>
+        </div>
+        </div>
+    </div>
+</section>
 
 
 

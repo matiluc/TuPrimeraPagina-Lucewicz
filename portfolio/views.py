@@ -29,6 +29,16 @@ def crear_receta(request):
 
     return render(request, 'portfolio/crear_receta.html', {'form': form})
 
+# def recetaFormWeb(request):
+#     if request.method == "POST":
+#         miFormulario = RecetaFormWeb(request.POST)
+#         if miFormulario.is_valid():
+#             informacion = miFormulario.cleaned_data
+#             nueva_receta = Receta(titulo=informacion["titulo"], receta=informacion["receta"])
+#             nueva_receta.save()
+#             return render(request, "portfolio/recetas.html")
+    
+#     else
 
 def detalle_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)

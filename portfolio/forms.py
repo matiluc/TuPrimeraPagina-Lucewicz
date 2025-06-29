@@ -8,3 +8,8 @@ class RecetaForm(forms.ModelForm):
     class Meta:
         model = Receta
         fields = ['titulo', 'foto', 'receta']
+
+# class RecetaFormWeb(forms.Form):
+#     titulo = forms.CharField(max_length=100)
+#     foto = forms.ImageField(upload_to='recetas/', blank=True, null=True)
+#     receta = forms.CharField()
