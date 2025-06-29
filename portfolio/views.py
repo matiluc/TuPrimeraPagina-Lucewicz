@@ -15,15 +15,20 @@ def recetas(request):
 def contacto(request):
     return render(request, "portfolio/contacto.html")
 
+def pauta(request):
+    return render(request, "portfolio/pauta.html")
+
 def crear_receta(request):
     if request.method == 'POST':
         form = RecetaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('index')  # o a donde quieras volver
+            return redirect('recetas')
     else:
         form = RecetaForm()
-    return render(request, "portfolio/crear_receta.html", {'form': form})
+
+    return render(request, 'portfolio/crear_receta.html', {'form': form})
+
 
 def detalle_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)

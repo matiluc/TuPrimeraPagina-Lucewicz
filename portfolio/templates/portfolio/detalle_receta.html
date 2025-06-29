@@ -14,13 +14,13 @@
                 <img src="{{ receta.foto.url }}" class="img-fluid mb-4 rounded" alt="{{ receta.titulo }}">
             {% endif %}
 
-            <h1 class="mb-3">{{ receta.titulo }}</h1>
+            <h1 class="mb-3 fw-bolder">{{ receta.titulo }}</h1>
 
             <div class="mb-3">
                 <div class="ck-content">{{ receta.receta|safe }}</div>
             </div>
 
-            <a href="{% url 'recetas' %}" class="btn btn-secondary mt-4">← Volver a todas las recetas</a>
+            <a href="{% url 'recetas' %}" class="btn btn-secondary mt-4 text-white fw-bold">← Volver a todas las recetas</a>
         </div>
     </div>
 </div>

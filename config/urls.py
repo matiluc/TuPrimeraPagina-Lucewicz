@@ -27,6 +27,7 @@ urlpatterns = [
     path("receta/<int:pk>/", views.detalle_receta, name="detalle_receta"),
     path('contacto', views.contacto, name='contacto'),
     path('crear_receta', views.crear_receta, name='crear_receta'),
+    path('pauta', views.pauta, name='pauta'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

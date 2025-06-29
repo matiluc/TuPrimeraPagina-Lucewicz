@@ -8,16 +8,23 @@
 
             <section class="py-5">
                 <div class="container px-5">
-                    <h2>Crear nueva receta</h2>
-
-
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">Guardar receta</button>
-                    </form>
-
-                    
+                    <!-- Contact form-->
+                    <div class="py-5 px-4 px-md-5">
+                        <div class="text-center mb-5">
+                            <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-envelope"></i></div>
+                            <h1 class="fw-bolder">¡Escribime!</h1>
+                            <p class="lead fw-normal text-muted mb-0">(aunque el formulario no anda)</p>
+                        </div>
+                        <div class="row gx-5 justify-content-center">
+                            <div class="col-xl-5">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-primary">Subir receta</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
