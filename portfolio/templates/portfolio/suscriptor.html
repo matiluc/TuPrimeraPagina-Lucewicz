@@ -17,9 +17,20 @@
                 <h2 class="display-6 text-center">Suscribite al <span style="font-weight: 900;">Newsletter</span></h2>
                 <p class="text-muted mb-4 mb-md-5 ">para recibir nuestros últimos commits de recetas</p>
             </div>
+
+            <!-- MENSAJE CENTRADO AQUÍ -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
         </div>
         </div>
-    </div>
+
         <!-- CUERPO DEL FORMULARIO -->
         <div class="row gx-6 justify-content-center">
             <!-- Este class maneja el ancho responsive -->
@@ -46,6 +57,7 @@
                 </form>
             </div>
         </div>
+    </div>
 </section>
             
 {% endblock %}

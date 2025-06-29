@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.paginator import Paginator # para paginar las recetas a mostrar, sino me olvido
 from .forms import RecetaForm, SuscriptorForm
 from .models import Receta, Suscriptor
+from django.contrib import messages
+
 
 #############################################################
 
@@ -46,7 +47,6 @@ def detalle_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
     return render(request, 'portfolio/detalle_receta.html', {'receta': receta})
 
-
 #############################################################
 
 # FUNCIONES FORMULARIOS
@@ -57,7 +57,9 @@ def suscriptor(request):
         form = SuscriptorForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            # para dar una confirmacion que se sucribió ok
+            messages.success(request, '¡Te suscribiste exitosamente!')
+            return redirect('suscriptor')
     else:
         form = SuscriptorForm()
     return render(request, 'portfolio/suscriptor.html', {'form': form})

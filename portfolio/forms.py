@@ -15,4 +15,9 @@ class SuscriptorForm(forms.ModelForm):
     class Meta:
         model = Suscriptor
         fields = ['nombre', 'apellido', 'email']
-
+        # esto para el mensaje de advertencia
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
