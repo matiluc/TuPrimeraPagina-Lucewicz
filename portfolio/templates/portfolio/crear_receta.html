@@ -13,7 +13,7 @@
         <div class="row justify-content-md-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
             <!-- DISPLAY-6 MODIFICA EL TAMAÑO DEL TITULO -->
-            <div class="text-center">
+            <div class="text-center text-center mb-5">
                 <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-fork-knife"></i></div>
                 <h2 class="display-6 text-center"><span style="font-weight: 900;">Nueva </span>receta</h2>
 
@@ -29,23 +29,31 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- Form Titulo -->
-                <div>
-                    <label for="id_titulo" class="form-label">Título:</label>
+                <div class="mb-3">
                     {{ form.titulo }}
                 </div>
+
                 <!-- Form Foto -->
-                <div>
-                    <label for="id_foto" class="form-label">Foto:</label>
+                <div class="mb-3">
                     {{ form.foto }}
                 </div>
+
+                <!-- Form Categorías -->
+                <div class="mb-3">
+                    {{ form.categorias }}
+                </div>
+            
                 <!-- Form Receta (con edicion de texto) -->
                 <div class="mb-3">
-                    <label class="form-label">Receta:</label>
                     <div id="editor" style="height: 230px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
                     <input type="hidden" name="receta" id="receta-content" required>
                 </div>
+
+
                 <!-- Boton -->
-                <button type="submit" class="btn btn-primary">Crear</button>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
             </form>
         </div>
     </div>
@@ -55,7 +63,7 @@
 <script>
 var quill = new Quill('#editor', {
     theme: 'snow',
-    placeholder: 'Escribir ingredientes y preparación aquí. Usar h3 para los titulos para que queden parejitos',
+    placeholder: 'Escribir ingredientes y preparación acá...',
     modules: {
         toolbar: [
             ['bold', 'italic', 'underline'],

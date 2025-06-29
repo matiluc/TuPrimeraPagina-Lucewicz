@@ -8,7 +8,14 @@ class RecetaForm(forms.ModelForm):
     
     class Meta:
         model = Receta
-        fields = ['titulo', 'foto', 'receta']
+        fields = ['titulo', 'foto', 'categorias', 'receta']
+        widgets = {
+            # estos dos son para que el nombre del campo aparezca dentro del campo
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título'}),
+            'foto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            # agregue esto para poder hacer dropdown de categorias
+            'categorias': forms.SelectMultiple(attrs={'class': 'form-select'})
+        }
 
 # Formulario Newsletter
 class SuscriptorForm(forms.ModelForm):
@@ -17,7 +24,7 @@ class SuscriptorForm(forms.ModelForm):
         fields = ['nombre', 'apellido', 'email']
         # esto para el mensaje de advertencia
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }

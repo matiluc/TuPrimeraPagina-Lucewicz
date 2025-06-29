@@ -70,7 +70,9 @@ def crear_receta(request):
     if request.method == 'POST':
         form = RecetaForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            receta = form.save(commit=False)
+            receta.save()
+            form.save_m2m()
             return redirect('recetas')
     else:
         form = RecetaForm()

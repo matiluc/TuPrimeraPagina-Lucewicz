@@ -39,21 +39,20 @@
                     {% csrf_token %}
                     <!-- Campo nombre-->
                     <div class="mb-3">
-                        <label for="id_nombre" class="form-label">Nombre:</label>
                         {{ form.nombre }}
                     </div>
                     <!-- Campo apellido -->
                     <div class="mb-3">
-                        <label for="id_apellido" class="form-label">Apellido:</label>
                         {{ form.apellido }}
                     </div>
                     <!-- Campo email -->
                     <div class="mb-3">
-                        <label for="id_email" class="form-label">Email:</label>
                         {{ form.email }}
                     </div>
                     <!-- Botón suscripción -->
-                    <button type="submit" class="btn btn-primary">Suscribite!</button>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="button">Suscribite!</button>
+                    </div>
                 </form>
             </div>
         </div>

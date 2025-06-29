@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/blogs/blog-5/assets/css/blog-5.css">
         
                             <!-- Blog 5 - Bootstrap Brain Component -->
-<section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
+<section class="bsb-blog-5 py-3 py-md-5 py-xl-8 flex-grow-1">
     <div class="container px-5">
         <div class="row justify-content-md-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
@@ -52,17 +52,24 @@
                                 <h4 class="h6 text-white bsb-hover-fadeInRight mt-0">{ A . & , }</h4>
                             </figcaption>
                         </figure>
-
-                        <div class="card-body m-0 p-0">
-                            <div class="entry-header mb-3">
-                                <h2 class="card-title entry-title h4 m-0">
-
-                                    <!-- VER OBJETO DEL FOR -->
-                                    <a class="link-dark text-decoration-none" href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a>
-                                    
-                                </h2>
-                            </div>
+                        
+                        <!-- ETIQUETAS DE CATEGORIAS-->
+                        <div class="entry-header mb-3">
+                            <h2 class="card-title entry-title h4 m-0">
+                                <!-- VER OBJETO DEL FOR -->
+                                <a class="link-dark text-decoration-none" href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a>
+                            </h2>
+                            
+                            <!-- Categorías como badges debajo del título -->
+                            {% if receta.categorias.all %}
+                                <div class="mt-2">
+                                    {% for categoria in receta.categorias.all %}
+                                        <span class="badge bg-secondary me-1 mb-1" style="background-color: #9b9b9b !important;">{{ categoria.nombre }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
+
                     </div>
                 </article>
             </div>

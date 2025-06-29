@@ -16,6 +16,15 @@
 
             <h1 class="mb-3 fw-bolder">{{ receta.titulo }}</h1>
 
+            <!-- MUESTRA LA ETIQUETA-->
+            {% if receta.categorias.all %}
+                <div class="mt-2">
+                    {% for categoria in receta.categorias.all %}
+                        <span class="badge bg-secondary me-1 mb-1" style="background-color: #9b9b9b !important;">{{ categoria.nombre }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <div class="my-4">
                 <div class="ck-content" style="margin-top: 4rem;">{{ receta.receta|safe }}</div>
             </div>
