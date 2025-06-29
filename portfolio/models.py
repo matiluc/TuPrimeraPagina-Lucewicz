@@ -10,6 +10,9 @@ class Receta(models.Model):
         return self.titulo
     
 class Suscriptor(models.Model):
-    nombre = models.CharField(max_length=30)  # Campo string de 100 caracteres
-    apellido = models.CharField(max_length=30)  # Campo string de 100 caracteres
-    email = models.EmailField()  # Campo de email
+    nombre = models.CharField(max_length=40)
+    apellido = models.CharField(max_length=40)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f'{self.nombre} {self.apellido}'

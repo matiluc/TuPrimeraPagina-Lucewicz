@@ -1,0 +1,49 @@
+{% extends 'portfolio/padre.html' %}
+{% load static %}
+
+{% block title %}Resultados{% endblock %}
+
+{% block contenido %}
+<section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
+  <div class="container px-5">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6 text-center">
+        <h2 class="display-5 mb-4">Resultados para: <span class="fw-bold">{{ consulta }}</span></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container px-5 overflow-hidden">
+    <div class="row gy-3 gy-md-4 gx-xl-5">
+      {% if recetas %}
+        {% for receta in recetas %}
+        <div class="col-12 col-lg-4">
+          <article>
+            <div class="card border-0 bg-transparent">
+              <figure class="card-img-top mb-3 overflow-hidden bsb-overlay-hover">
+                <a href="{% url 'detalle_receta' receta.pk %}">
+                  <div class="ratio ratio-1x1">
+                    {% if receta.foto %}
+                      <img class="img-fluid bsb-scale" loading="lazy" src="{{ receta.foto.url }}" alt="{{ receta.titulo }}" style="object-fit: cover">
+                    {% else %}
+                      <img class="img-fluid bsb-scale" loading="lazy" src="{% static 'portfolio/img/imagen_default.jpg' %}" alt="Sin imagen" style="object-fit: cover">
+                    {% endif %}
+                  </div>
+                </a>
+              </figure>
+              <div class="card-body p-0">
+                <h2 class="card-title h5"><a class="link-dark text-decoration-none" href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a></h2>
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="col text-center">
+          <p class="text-muted">No se encontraron recetas que coincidan con tu búsqueda.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

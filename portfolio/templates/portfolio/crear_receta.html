@@ -9,39 +9,46 @@
 <!-- TITULO-->
 <section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
     <div class="container px-5">
+
         <div class="row justify-content-md-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
             <!-- DISPLAY-6 MODIFICA EL TAMAÑO DEL TITULO -->
-            <h2 class="display-6 mb-4 mb-md-5 text-center">Subir receta <span style="font-weight: 900;">nueva</span></h2>
+            <div class="text-center">
+                <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-fork-knife"></i></div>
+                <h2 class="display-6 text-center">Receta <span style="font-weight: 900;">nueva</span></h2>
+
+            </div>
         </div>
         </div>
     </div>
 
 
 
+
             <!-- CUERPO DEL FORMULARIO -->
             <div class="row gx-6 justify-content-center">
-                <div class="col-xl-5">
+                <!-- Este class maneja el ancho responsive -->
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" style="max-width: 600px;"> 
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
-                        <div class="mb-3">
+                        <div>
                             <label for="id_titulo" class="form-label">Título:</label>
                             {{ form.titulo }}
                         </div>
                         
-                        <div class="mb-3">
+                        <div>
                             <label for="id_foto" class="form-label">Foto:</label>
                             {{ form.foto }}
                         </div>
                         
                         <div class="mb-3">
                             <label class="form-label">Receta:</label>
-                            <div id="editor" style="height: 300px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
+                            <div id="editor" style="height: 230px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
                             <input type="hidden" name="receta" id="receta-content" required>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">Subir receta</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
                     </form>
                 </div>
             </div>

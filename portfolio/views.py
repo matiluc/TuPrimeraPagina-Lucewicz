@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RecetaForm
+from .forms import RecetaForm, SuscriptorForm
 from .models import Receta
 
 def padre(request):
@@ -43,3 +43,29 @@ def crear_receta(request):
 def detalle_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
     return render(request, 'portfolio/detalle_receta.html', {'receta': receta})
+
+# Suscripcion
+def suscriptor(request):
+    if request.method == 'POST':
+        form = SuscriptorForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = SuscriptorForm()
+
+    return render(request, 'portfolio/suscriptor.html', {'form': form})
+
+
+# Buscador de recetas
+def buscador(request):
+    consulta = request.GET.get("q")
+
+    if consulta:
+        recetas = Receta.objects.filter(titulo__icontains=consulta)
+        return render(request, "portfolio/resultados_busqueda.html", {
+            "recetas": recetas,
+            "consulta": consulta,
+        })
+    else:
+        return render(request, "portfolio/buscador.html")

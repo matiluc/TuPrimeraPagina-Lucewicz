@@ -29,6 +29,8 @@ urlpatterns = [
     path('crear_receta', views.crear_receta, name='crear_receta'),
     path('pauta', views.pauta, name='pauta'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('suscriptor', views.suscriptor, name='suscriptor'),
+    path('buscador/', views.buscador, name='buscador'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
