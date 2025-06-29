@@ -6,21 +6,40 @@
 
 {% block contenido %}
 
+<!-- El body tiene doble << porque fue la unica forma que encontre de agregar background sin tener que ponerlo en padre.html -->
+<!-- Supuestamente estoy pisando al body de padre.html pero me funcionó -->
 <<body style="background-image: url('{% static 'portfolio/img/fondo_home.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="text-center pt-5">
+        <div class="align-items-center">
+            <div class="text-center w-100">
+                <div class="badge bg-gradient-primary-to-secondary text-white mb-4">
+                    <div class="text-uppercase">TP 3 PYTHON FLEX &middot; MATIAS LUCEWICZ</div>
+                </div>
+                <div class="fs-2 fw-light text-muted">Recetas de cocina + Python</div>
+                <h1 class="display-3 fw-bolder mb-5">
+                    <span class="text-gradient d-inline">{ A PUNTO & COMA }</span>
+                </h1>
+            </div>
+        </div>
+    </div>
 
-        <div class="text-center pt-5">
-            <div class="align-items-center">
-                <div class="text-center w-100">
-                    <div class="badge bg-gradient-primary-to-secondary text-white mb-4">
-                        <div class="text-uppercase">TP 3 PYTHON FLEX &middot; MATIAS LUCEWICZ</div>
-                    </div>
-                    <div class="fs-2 fw-light text-muted">Recetas de cocina + Python</div>
-                    <h1 class="display-3 fw-bolder mb-5">
-                        <span class="text-gradient d-inline">{ A PUNTO & COMA }</span>
-                    </h1>
+<!-- Contadores-->
+
+    <section class="pt-5 mt-5">
+        <div class="container px-4">
+            <div class="row text-center g-4 justify-content-center">
+                <div class="col-md-2">
+                    <h3 class="display-4 fw-bold text-primary">{{ total_recetas }}</h3>
+                    <p class="lead">Recetas publicadas</p>
+                </div>
+                <div class="col-md-2">
+                    <h3 class="display-4 fw-bold text-primary">{{ total_suscriptores }}</h3>
+                    <p class="lead">Suscriptores</p>
                 </div>
             </div>
         </div>
+    </section>
+
 </body>
        
 {% endblock %}

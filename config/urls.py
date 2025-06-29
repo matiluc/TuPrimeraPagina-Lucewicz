@@ -21,17 +21,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('recetas', views.recetas, name='recetas'),
-    path("receta/<int:pk>/", views.detalle_receta, name="detalle_receta"),
-    path('contacto', views.contacto, name='contacto'),
-    path('crear_receta', views.crear_receta, name='crear_receta'),
-    path('pauta', views.pauta, name='pauta'),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('suscriptor', views.suscriptor, name='suscriptor'),
-    path('buscador/', views.buscador, name='buscador'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('admin/', admin.site.urls), # admin
+    path('', views.index, name='index'), # home
+    path('recetas', views.recetas, name='recetas'), # recetas
+    path("receta/<int:pk>/", views.detalle_receta, name="detalle_receta"), # recetas individuales
+    # path('contacto', views.contacto, name='contacto'), # ya no está
+    path('crear_receta', views.crear_receta, name='crear_receta'), # crear receta nueva
+    path('ckeditor/', include('ckeditor_uploader.urls')), # editor con estilos para el form de crear receta nueva
+    path('pauta', views.pauta, name='pauta'), # pauta
+    path('suscriptor', views.suscriptor, name='suscriptor'), # form suscriptor
+    path('buscador/', views.buscador, name='buscador'), # buscador
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # pagar agregar fotos al form de recetas pero probe tantas cosas que no se sigue siendo necesario
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

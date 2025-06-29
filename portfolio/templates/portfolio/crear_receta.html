@@ -15,51 +15,47 @@
             <!-- DISPLAY-6 MODIFICA EL TAMAÑO DEL TITULO -->
             <div class="text-center">
                 <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-fork-knife"></i></div>
-                <h2 class="display-6 text-center">Receta <span style="font-weight: 900;">nueva</span></h2>
+                <h2 class="display-6 text-center"><span style="font-weight: 900;">Nueva </span>receta</h2>
 
             </div>
         </div>
         </div>
     </div>
-
-
-
-
-            <!-- CUERPO DEL FORMULARIO -->
-            <div class="row gx-6 justify-content-center">
-                <!-- Este class maneja el ancho responsive -->
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" style="max-width: 600px;"> 
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div>
-                            <label for="id_titulo" class="form-label">Título:</label>
-                            {{ form.titulo }}
-                        </div>
-                        
-                        <div>
-                            <label for="id_foto" class="form-label">Foto:</label>
-                            {{ form.foto }}
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Receta:</label>
-                            <div id="editor" style="height: 230px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
-                            <input type="hidden" name="receta" id="receta-content" required>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Crear</button>
-                    </form>
+    
+    <!-- CUERPO DEL FORMULARIO -->
+    <div class="row gx-6 justify-content-center">
+        <!-- Este class maneja el ancho responsive -->
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" style="max-width: 600px;"> 
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Form Titulo -->
+                <div>
+                    <label for="id_titulo" class="form-label">Título:</label>
+                    {{ form.titulo }}
                 </div>
-            </div>
+                <!-- Form Foto -->
+                <div>
+                    <label for="id_foto" class="form-label">Foto:</label>
+                    {{ form.foto }}
+                </div>
+                <!-- Form Receta (con edicion de texto) -->
+                <div class="mb-3">
+                    <label class="form-label">Receta:</label>
+                    <div id="editor" style="height: 230px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
+                    <input type="hidden" name="receta" id="receta-content" required>
+                </div>
+                <!-- Boton -->
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </form>
         </div>
     </div>
 </section>
 
+<!-- Esto que esta acá es chatgpt -->
 <script>
 var quill = new Quill('#editor', {
     theme: 'snow',
-    placeholder: 'Escribe tu receta aquí...',
+    placeholder: 'Escribir ingredientes y preparación aquí. Usar h3 para los titulos para que queden parejitos',
     modules: {
         toolbar: [
             ['bold', 'italic', 'underline'],
@@ -77,6 +73,4 @@ document.querySelector('form').addEventListener('submit', function() {
 });
 </script>
 
-
-            
 {% endblock %}
