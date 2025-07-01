@@ -26,4 +26,4 @@ Funcionalidades:
 
 · Pauta: Del TP.
 
-· Buscar: Formulario que permite buscar las recetas segun el contenido total o parcial del título de cada receta (en algun momento lo extenderé a poder buscar segun el contenido de la receta en si y en las etiquetas de Categorías) que devuelve otro html pero con el resultado.
+· Buscar: Función que permite buscar las recetas segun el contenido total o parcial del título de cada receta (en algun momento lo extenderé a poder buscar segun el contenido de la receta en si y en las etiquetas de Categorías) que devuelve otro html pero con el resultado.
