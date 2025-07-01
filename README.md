@@ -25,4 +25,5 @@ Funcionalidades:
 · Newsletter: Formulario normal que permite al usuario registrar sus datos en una bbdd para recibir posibles newsletters y que además, luego de suscribirse, devuelve una alerta de suscripción exitosa con un messages.success importado desde django.contrib.
 
 · Pauta: Del TP.
+
 · Buscar: Formulario que permite buscar las recetas segun el contenido total o parcial del título de cada receta (en algun momento lo extenderé a poder buscar segun el contenido de la receta en si y en las etiquetas de Categorías) que devuelve otro html pero con el resultado.
