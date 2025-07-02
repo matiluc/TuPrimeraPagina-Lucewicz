@@ -8,7 +8,7 @@
 
 <!-- TITULO-->
 <section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
-    <div class="container px-5">
+    <div class="container px-3">
 
         <div class="row justify-content-md-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
@@ -16,16 +16,22 @@
             <div class="text-center text-center mb-5">
                 <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-fork-knife"></i></div>
                 <h2 class="display-6 text-center"><span style="font-weight: 900;">Nueva </span>receta</h2>
-
             </div>
+                <!-- MENSAJE CENTRADO AQUÍ -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
         </div>
-    </div>
-    
-    <!-- CUERPO DEL FORMULARIO -->
-    <div class="row gx-6 justify-content-center">
+
+        <div class="row gx-6 justify-content-center">
         <!-- Este class maneja el ancho responsive -->
-        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" style="max-width: 600px;"> 
+        <div class="col-12 col-sm-10 col-md-8" style="max-width: 600px;"> 
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- Form Titulo -->
@@ -57,6 +63,13 @@
             </form>
         </div>
     </div>
+    </div>
+    
+
+
+
+    <!-- CUERPO DEL FORMULARIO -->
+
 </section>
 
 <!-- Esto que esta acá es chatgpt -->

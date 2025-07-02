@@ -72,8 +72,9 @@ def crear_receta(request):
         if form.is_valid():
             receta = form.save(commit=False)
             receta.save()
+            messages.success(request, '¡La receta se subió exitosamente!')
             form.save_m2m()
-            return redirect('recetas')
+            return redirect('crear_receta')
     else:
         form = RecetaForm()
     return render(request, 'portfolio/crear_receta.html', {'form': form})
