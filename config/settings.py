@@ -125,7 +125,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/portfolio/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # OPCIONES DEL EDITOR DE TEXTO EN ADMIN
@@ -144,4 +144,4 @@ CKEDITOR_CONFIGS = {
     }
 }
 # Si usas ckeditor_uploader para imágenes
-CKEDITOR_UPLOAD_PATH = "/portfolio/media/"
+CKEDITOR_UPLOAD_PATH = "/media/"
