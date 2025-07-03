@@ -31,6 +31,11 @@ urlpatterns = [
     path('pauta', views.pauta, name='pauta'), # pauta
     path('suscriptor', views.suscriptor, name='suscriptor'), # form suscriptor
     path('buscador/', views.buscador, name='buscador'), # buscador
+    # Vista general del panel (sin argumentos)
+    path('tabla_edicion_recetas/', views.tabla_edicion_recetas, name='tabla_edicion_recetas'),
+    # Vista para editar una receta específica (con argumento)
+    path('receta/editar/<int:pk>/', views.editar_receta, name='editar_receta'),
+    path('receta/eliminar/<int:pk>/', views.eliminar_receta, name='eliminar_receta'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # pagar agregar fotos al form de recetas pero probe tantas cosas que no se sigue siendo necesario
 
 if settings.DEBUG:

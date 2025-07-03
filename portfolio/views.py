@@ -48,6 +48,41 @@ def detalle_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
     return render(request, 'portfolio/detalle_receta.html', {'receta': receta})
 
+
+# ordenar recetas por nombre
+
+def listar_recetas(request):
+    # Debug: imprimir en consola del servidor
+    orden = request.GET.get('orden')
+    print(f"Parámetro 'orden' recibido: {orden}")
+    print(f"Todos los parámetros GET: {request.GET}")
+    
+    # Obtener todas las recetas SIN orden primero
+    recetas_sin_orden = Receta.objects.all()
+    print(f"Recetas sin orden: {[r.titulo for r in recetas_sin_orden]}")
+    
+    # Aplicar orden
+    if orden == '-titulo':
+        recetas = recetas_sin_orden.order_by('-titulo')
+        print("Aplicando orden Z-A")
+    elif orden == 'titulo':
+        recetas = recetas_sin_orden.order_by('titulo')
+        print("Aplicando orden A-Z")
+    else:
+        recetas = recetas_sin_orden.order_by('titulo')  # Por defecto A-Z
+        print("Aplicando orden por defecto (A-Z)")
+    
+    # Mostrar resultado final
+    print(f"Recetas ordenadas: {[r.titulo for r in recetas]}")
+    
+    context = {
+        'recetas': recetas,
+        'orden': orden,
+    }
+    
+    return render(request, 'tu_template.html', context)
+
+
 #############################################################
 
 # FUNCIONES FORMULARIOS
@@ -91,3 +126,44 @@ def buscador(request):
     else:
         return render(request, "portfolio/buscador.html")
 
+#############################################################
+
+# EDITAR
+
+def tabla_edicion_recetas(request):
+    recetas = Receta.objects.all()
+    return render(request, 'portfolio/tabla_edicion_recetas.html', {'recetas': recetas})
+
+# EDITAR RECETA USA EL FORM PARA CREAR PERO MANTIENE LA INFO
+
+def editar_receta(request, pk):
+    receta = get_object_or_404(Receta, pk=pk)
+    
+    if request.method == 'POST':
+        form = RecetaForm(request.POST, request.FILES, instance=receta)
+        if form.is_valid():
+            receta = form.save(commit=False)
+            receta.save()
+            messages.success(request, '¡La receta se editó exitosamente!')
+            form.save_m2m()
+            return redirect('editar_receta', pk=receta.pk)
+    else:
+        form = RecetaForm(instance=receta)
+    
+    return render(request, 'portfolio/editar_receta.html', {'form': form, 'receta': receta})
+
+#############################################################
+
+# ELIMINAR
+
+def eliminar_receta(request, pk):
+    receta = get_object_or_404(Receta, pk=pk)
+    
+    if request.method == 'POST':
+        titulo_receta = receta.titulo 
+        receta.delete()
+        messages.success(request, f'La receta "{titulo_receta}" se eliminó exitosamente.') 
+        return redirect('tabla_edicion_recetas')
+    
+    # Si no es POST, mostrar página de confirmación
+    return render(request, 'portfolio/tabla_edicion_recetas.html', {'receta': receta})

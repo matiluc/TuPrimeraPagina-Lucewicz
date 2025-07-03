@@ -1,0 +1,75 @@
+{% extends 'portfolio/padre.html' %}
+
+{% load static %}
+
+{% block title %}Editar recetas{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5" style="max-width: 1200px;">
+    <h2 class="mb-4 text-center">Listado de Recetas</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-left">
+            <thead class="table-light">
+                <tr class="text-start">
+                    <th style="width: 80px;">Foto</th>
+                    <th style="max-width: 150px;">Título</th>
+                    <th style="max-width: 100px;">Categorías</th>
+                    <th style="width: 300px;" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for receta in recetas %}
+                    <td>
+                    {% if receta.foto %}
+                        <img src="{{ receta.foto.url }}" alt="{{ receta.titulo }}" style="width: 60px; height: 40px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'portfolio/img/imagen_default.jpg' %}" alt="Sin foto" style="width: 60px; height: 40px; object-fit: cover;">
+                    {% endif %}
+                    </td>
+                    <!-- COLUMNA TÍTULO -->
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                        {{ receta.titulo }}
+                    </td>
+                    <!-- COLUMNA CATEGORÍA -->
+                    <td style="max-width: 200px;" class="text-start">
+                        <div style="display: flex; flex-wrap: wrap; gap: 2px;">
+                            {% for cat in receta.categorias.all %}
+                                <span class="badge bg-secondary me-1 mb-1" style="background-color: #9b9b9b !important;">{{ cat.nombre }}</span>
+                            {% empty %}
+                                <span class="text-muted">Sin categorías</span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td class="text-end">
+                        <a href="{% url 'detalle_receta' receta.pk %}" class="btn btn-sm btn-outline-info me-1" title="Ver"> 
+                            <!-- ícono ojo -->
+                            <i class="bi bi-eye"></i>
+                            Ver
+                        </a>
+                        <a href="{% url 'editar_receta' receta.pk %}" class="btn btn-sm btn-outline-warning me-1" title="Editar">
+                            <!-- ícono lápiz -->
+                            <i class="bi bi-pencil"></i>
+                            Editar
+                        </a>
+                    <form method="post" action="{% url 'eliminar_receta' receta.pk %}" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="event.stopPropagation();">
+                            <i class="bi bi-trash"></i>
+                            Eliminar
+                        </button>
+                    </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay recetas cargadas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
