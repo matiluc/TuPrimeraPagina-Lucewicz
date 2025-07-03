@@ -13,7 +13,7 @@
         <div class="row justify-content-md-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
             <!-- DISPLAY-6 MODIFICA EL TAMAÑO DEL TITULO -->
-            <div class="text-center text-center mb-5">
+            <div class="text-center text-center">
                 <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-fork-knife"></i></div>
                 <h2 class="display-6 text-center">Editar <span style="font-weight: 900;">receta</span></h2>
             </div>
@@ -36,17 +36,31 @@
                 {% csrf_token %}
                 <!-- Form Titulo -->
                 <div class="mb-3">
+                    <label class="form-label">Titulo:</label>
                     {{ form.titulo }}
                 </div>
 
                 <!-- Form Foto -->
-                {% if form.foto.value %}
+                <div class="mb-3">
+                    {% if receta.foto %}
+                        <div class="mb-3">
+                            <img src="{{ receta.foto.url }}" alt="Imagen actual" style="max-width: 200px;">
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" name="foto-clear" id="foto-clear" 
+                                class="form-check-input">
+                            <label for="foto-clear" class="form-check-label">
+                                Borrar imagen actual
+                            </label>
+                        </div>
+                    {% endif %}
+
                     <div class="mb-2">
-                        <label>Imagen actual:</label><br>
-                        <img src="{{ form.foto.value.url }}" alt="Imagen actual" style="max-width: 200px; height: auto;">
+                        <label class="form-label">Reemplazar:</label>
+                        <input type="file" name="foto" id="id_foto" class="form-control" 
+                            accept="image/*">
                     </div>
-                {% endif %}
-                {{ form.foto }}
+                </div>
 
                 <!-- Form Categorías -->
                 <div class="mb-3">
@@ -92,10 +106,21 @@ var quill = new Quill('#editor', {
     }
 });
 
+// CARGAR EL CONTENIDO EXISTENTE
+document.addEventListener('DOMContentLoaded', function() {
+    var contenidoExistente = document.getElementById('contenido-inicial');
+    if (contenidoExistente && contenidoExistente.innerHTML.trim() !== '') {
+        quill.clipboard.dangerouslyPasteHTML(contenidoExistente.innerHTML);
+    }
+});
+
 // Guardar contenido antes de enviar
 document.querySelector('form').addEventListener('submit', function() {
     document.querySelector('#receta-content').value = quill.root.innerHTML;
 });
 </script>
+
+<!-- Contenido inicial oculto -->
+<div id="contenido-inicial" style="display: none;">{{ contenido_receta|safe }}</div>
 
 {% endblock %}

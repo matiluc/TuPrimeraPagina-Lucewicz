@@ -17,8 +17,10 @@ class RecetaForm(forms.ModelForm):
             'categorias': forms.SelectMultiple(attrs={'class': 'form-select'})
         }
 
+
 # Formulario Newsletter
 class SuscriptorForm(forms.ModelForm):
+    
     class Meta:
         model = Suscriptor
         fields = ['nombre', 'apellido', 'email']

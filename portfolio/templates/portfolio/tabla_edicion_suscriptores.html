@@ -1,0 +1,70 @@
+{% extends 'portfolio/padre.html' %}
+
+{% load static %}
+
+{% block title %}Editar recetas{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5" style="max-width: 1000px;">
+    <h2 class="mb-4 py-2 text-center">Listado de Suscriptores</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-left">
+            <thead class="table-light">
+                <tr class="text-start">
+                    <th style="width: 250px; max-width: 300px;">Apellido</th>
+                    <th style="width: 250px; max-width: 300px;">Nombre</th>
+                    <th style="max-width: 250px;">Email</th>
+                    <th style="width: 200px;" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+                {% for suscriptor in suscriptores %}
+                    <!-- COLUMNA TÍTULO -->
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                        {{ suscriptor.apellido }}
+                    </td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                        {{ suscriptor.nombre }}
+                    </td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                        {{ suscriptor.email }}
+                    </td>
+                    <!-- COLUMNA CATEGORÍA -->
+                    <td class="text-end">
+                        <a href="{% url 'editar_suscriptor' suscriptor.pk %}" class="btn btn-sm btn-outline-warning me-1" title="Editar">
+                            <!-- ícono lápiz -->
+                            <i class="bi bi-pencil"></i>
+                            Editar
+                        </a>
+                    <form method="post" action="{% url 'eliminar_suscriptor' suscriptor.pk %}" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este suscriptor?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="event.stopPropagation();">
+                            <i class="bi bi-trash"></i>
+                            Eliminar
+                        </button>
+                    </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay usuarios en la base de datos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

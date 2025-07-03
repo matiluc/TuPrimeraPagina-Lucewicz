@@ -131,8 +131,12 @@ def buscador(request):
 # EDITAR
 
 def tabla_edicion_recetas(request):
-    recetas = Receta.objects.all()
+    recetas = Receta.objects.all().order_by('-id')
     return render(request, 'portfolio/tabla_edicion_recetas.html', {'recetas': recetas})
+
+def tabla_edicion_suscriptores(request):
+    suscriptores = Suscriptor.objects.all().order_by('apellido')
+    return render(request, 'portfolio/tabla_edicion_suscriptores.html', {'suscriptores': suscriptores})
 
 # EDITAR RECETA USA EL FORM PARA CREAR PERO MANTIENE LA INFO
 
@@ -140,17 +144,53 @@ def editar_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
     
     if request.method == 'POST':
-        form = RecetaForm(request.POST, request.FILES, instance=receta)
-        if form.is_valid():
-            receta = form.save(commit=False)
+        # Manejar el borrado de imagen
+        if 'foto-clear' in request.POST and receta.foto:
+            receta.foto.delete()
+            receta.foto = None
             receta.save()
+        
+        form = RecetaForm(request.POST, request.FILES, instance=receta)
+        
+        if form.is_valid():
+            receta = form.save()
             messages.success(request, '¡La receta se editó exitosamente!')
-            form.save_m2m()
-            return redirect('editar_receta', pk=receta.pk)
+            return redirect('editar_receta', pk=pk)
     else:
         form = RecetaForm(instance=receta)
     
-    return render(request, 'portfolio/editar_receta.html', {'form': form, 'receta': receta})
+    # Pasar el contenido de la receta al template
+    context = {
+        'form': form, 
+        'receta': receta,
+        'contenido_receta': receta.receta if receta.receta else ''
+    }
+    
+    return render(request, 'portfolio/editar_receta.html', context)
+
+# EDITAR SUSCRIPTOR
+
+def editar_suscriptor(request, pk):
+    suscriptor = get_object_or_404(Suscriptor, pk=pk)
+    
+    if request.method == 'POST':
+        form = SuscriptorForm(request.POST, instance=suscriptor)
+        
+        if form.is_valid():
+            suscriptor = form.save()
+            messages.success(request, '¡El suscriptor se editó exitosamente!')
+            return redirect('editar_suscriptor', pk=pk)
+    else:
+        form = SuscriptorForm(instance=suscriptor)
+    
+    # Pasar el contenido de la receta al template
+    context = {
+        'form': form, 
+        'suscriptor': suscriptor,
+    }
+    
+    return render(request, 'portfolio/editar_suscriptor.html', context)
+
 
 #############################################################
 
@@ -162,8 +202,20 @@ def eliminar_receta(request, pk):
     if request.method == 'POST':
         titulo_receta = receta.titulo 
         receta.delete()
-        messages.success(request, f'La receta "{titulo_receta}" se eliminó exitosamente.') 
+        messages.success(request, f'La receta "{titulo_receta}" se eliminó exitosamente.', extra_tags='receta') 
         return redirect('tabla_edicion_recetas')
     
     # Si no es POST, mostrar página de confirmación
     return render(request, 'portfolio/tabla_edicion_recetas.html', {'receta': receta})
+
+
+def eliminar_suscriptor(request, pk):
+    suscriptor = get_object_or_404(Suscriptor, pk=pk)
+    
+    if request.method == 'POST':
+        suscriptor.delete()
+        messages.success(request, f'El suscriptor "{suscriptor}" se eliminó exitosamente.', extra_tags='suscriptor') 
+        return redirect('tabla_edicion_suscriptores')
+    
+    # Si no es POST, mostrar página de confirmación
+    return render(request, 'portfolio/tabla_edicion_suscriptores.html', {'suscriptor': suscriptor})
