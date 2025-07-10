@@ -1,5 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.utils import timezone # para poner fecha en posteo
 
 # Class 1 = esta arriba porque me daba error al estar abajo ya que se llama en la clase Receta
 class Categorias(models.Model):
@@ -11,9 +13,11 @@ class Categorias(models.Model):
 # Class 2 = para manejar las recetas
 class Receta(models.Model):
     titulo = models.CharField(max_length=100)
-    foto = models.ImageField(upload_to='recetas/', blank=True, null=True)
-    receta = RichTextField()
-    categorias = models.ManyToManyField(Categorias, blank=True)
+    foto = models.ImageField(upload_to='recetas/', null=True, blank=True)
+    categorias = models.ManyToManyField('Categorias', blank=True)
+    receta = RichTextField(blank=False)
+    fecha = models.DateField(default=timezone.now)  # <-- FECHA
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)  # <-- AUTOR
 
     def __str__(self):
         return self.titulo

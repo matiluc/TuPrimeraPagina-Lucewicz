@@ -18,6 +18,25 @@
                 <h2 class="display-6 text-center"><span style="font-weight: 900;">Nueva </span>receta</h2>
             </div>
                 <!-- MENSAJE CENTRADO AQUÍ -->
+            {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+                <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                    <li><strong>{{ field.label }}:</strong>
+                        <ul>
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Mensajes con tipo dinámico -->
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
@@ -55,8 +74,9 @@
             
                 <!-- Form Receta (con edicion de texto) -->
                 <div class="mb-3">
-                    <div id="editor" style="height: 230px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
-                    <input type="hidden" name="receta" id="receta-content" required>
+                    <div class="mb-3">
+                        {{ form.receta }}
+                    </div>
                 </div>
 
 
@@ -97,5 +117,7 @@ document.querySelector('form').addEventListener('submit', function() {
     document.querySelector('#receta-content').value = quill.root.innerHTML;
 });
 </script>
+
+{{ form.media }}
 
 {% endblock %}

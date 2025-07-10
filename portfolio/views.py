@@ -2,15 +2,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecetaForm, SuscriptorForm
 from .models import Receta, Suscriptor
 from django.contrib import messages
+from django.utils import timezone # PARA FECHA
 
+# para login:
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
 
-
-#para usuarios
-
+# para que solo pueda editar superuser:
+from django.contrib.auth.decorators import user_passes_test, login_required
 
 #############################################################
 
@@ -116,10 +117,14 @@ def crear_receta(request):
         form = RecetaForm(request.POST, request.FILES)
         if form.is_valid():
             receta = form.save(commit=False)
+            receta.autor = request.user # asigna autor, sino me olvido
             receta.save()
-            messages.success(request, '¡La receta se subió exitosamente!')
+            if not receta.fecha:
+                receta.fecha = timezone.now()
+            receta.save()
             form.save_m2m()
-            return redirect('crear_receta')
+            messages.success(request, '¡La receta se creó exitosamente!')
+            return redirect('tabla_edicion_recetas')
     else:
         form = RecetaForm()
     return render(request, 'portfolio/crear_receta.html', {'form': form})
@@ -140,8 +145,13 @@ def buscador(request):
 
 # EDITAR
 
+@login_required
 def tabla_edicion_recetas(request):
-    recetas = Receta.objects.all().order_by('-id')
+    if request.user.is_superuser:
+        recetas = Receta.objects.all().order_by('-id')
+    else:
+        recetas = Receta.objects.filter(autor=request.user).order_by('-id')
+    
     return render(request, 'portfolio/tabla_edicion_recetas.html', {'recetas': recetas})
 
 def tabla_edicion_suscriptores(request):
@@ -150,9 +160,14 @@ def tabla_edicion_suscriptores(request):
 
 # EDITAR RECETA USA EL FORM PARA CREAR PERO MANTIENE LA INFO
 
+@login_required
 def editar_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
     
+    # SOLO PUEDE EDITAR ADMIN O AUTOR
+    if request.user != receta.autor and not request.user.is_superuser:
+        return redirect('recetas')  # o a tu página principal
+
     if request.method == 'POST':
         # Manejar el borrado de imagen
         if 'foto-clear' in request.POST and receta.foto:
@@ -160,12 +175,18 @@ def editar_receta(request, pk):
             receta.foto = None
             receta.save()
         
+        # Crear el formulario con los datos recibidos
         form = RecetaForm(request.POST, request.FILES, instance=receta)
         
+        # Verifica si el formulario es válido
         if form.is_valid():
-            receta = form.save()
+            form.save()  # Guardar la receta sin necesidad de reasignar a receta
             messages.success(request, '¡La receta se editó exitosamente!')
-            return redirect('editar_receta', pk=pk)
+            return redirect('tabla_edicion_recetas')  # Redirige al listado de todas las recetas del usuario
+        else:
+            # Si el formulario no es válido, muestra los errores
+            messages.error(request, 'Hubo un error al guardar la receta.')
+            print(form.errors)  # Para depurar en consola si algo está mal
     else:
         form = RecetaForm(instance=receta)
     
@@ -178,8 +199,15 @@ def editar_receta(request, pk):
     
     return render(request, 'portfolio/editar_receta.html', context)
 
-# EDITAR SUSCRIPTOR
 
+# PERMISOS DE SUPERUSER PARA EDITAR
+
+def solo_superuser(user):
+    return user.is_superuser
+
+# EDITAR SUSCRIPTOR (SOLO SUPERUSER / ADMIN)
+
+@user_passes_test(solo_superuser)
 def editar_suscriptor(request, pk):
     suscriptor = get_object_or_404(Suscriptor, pk=pk)
     
@@ -258,12 +286,12 @@ def register(request):
 
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-
-            username = form.cleaned_data['username']
             form.save()
-            return render(request, 'portfolio/index.html', {"mensaje":"Usuario Creado :)"})
-        
+            messages.success(request, 'Usuario creado con éxito. Ya podés iniciar sesión.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Por favor corregí los errores en el formulario.')
     else:
         form = UserRegisterForm()
 
-    return render(request, 'portfolio/usuario/registro.html', {"form":form})
+    return render(request, 'portfolio/usuario/registro.html', {'form': form})

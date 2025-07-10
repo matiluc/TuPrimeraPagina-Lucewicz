@@ -27,11 +27,13 @@
 
     </head>
 
-    <!-- Body-->
-        <!-- Aca puse el gradient del background-->
+    <!-- BODY -->
         <!-- Body con gradiente que no me gustó mas: <body class="d-flex flex-column h-100" style="background: linear-gradient(to bottom, #ffffff, #f3f3f3); background-attachment: fixed; min-height: 100vh;">-->
         <body class="d-flex flex-column h-100" style="background: whitesmoke; background-attachment: fixed; min-height: 100vh;">
-        <!-- Navigation-->
+
+
+
+        <!-- NAVIGATION -->
         <nav class="navbar navbar-expand-lg navbar-light py-3">
             <div class="container px-5">
                 <a class="navbar-brand" href="{% url 'index' %}"><span class="fw-bolder" style="color: purple">{ A . & , }</span></a>
@@ -65,7 +67,6 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'suscriptor' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Newsletter</a></li>
                         {% endif %}
 
-                        <li class="nav-item"><a class="nav-link" href="{% url 'tabla_edicion_suscriptores' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Suscriptores</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'pauta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Pauta</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'buscador' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Buscar</a></li>
                         
@@ -73,29 +74,52 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Acceder</a></li>
                         {% endif %}
                         
-                        <!-- LOGOUT -->
-                        {% if request.user.is_authenticated %}  <!-- USUARIO Y DESPLEGABLE CON SALIR SOLO SI ESTÁ LOGUEADO -->
+                        <!-- PANEL USUARIO / SI ES SUPERUSER; AGREGA PANEL EDICION SUSCRIPTORES -->
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPerfil" role="button" 
                                 data-bs-toggle="dropdown" aria-expanded="false"
                                 onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
-                                {{user.username}}
+                                {% if request.user.is_superuser %}
+                                    ADMIN
+                                {% else %}
+                                    {{ user.username }}
+                                {% endif %}
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownRecetas">
-                                <li><a class="dropdown-item" href="#" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Editar Perfil</a></li>
-                             <li class="nav-item d-flex align-items-center">
-                                <form method="post" action="{% url 'salir' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="nav-link btn btn-link ms-1"
-                                            
-                                            onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
-                                        Salir
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
+                            
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownPerfil">
+                                <li>
+                                    <a class="dropdown-item" href="#" 
+                                    onmouseover="this.style.color='purple'" 
+                                    onmouseout="this.style.color=''">
+                                    Editar Perfil
+                                    </a>
+                                </li>
+                                
+                                {% if request.user.is_superuser %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'tabla_edicion_suscriptores' %}"
+                                    onmouseover="this.style.color='purple'" 
+                                    onmouseout="this.style.color=''">
+                                    Suscriptores
+                                    </a>
+                                </li>
+                                {% endif %}
+                                
+                                <li>
+                                    <form method="post" action="{% url 'salir' %}" class="m-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item"
+                                                onmouseover="this.style.color='purple'" 
+                                                onmouseout="this.style.color=''">
+                                            Salir
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                         {% endif %}
+
 
                         <!-- BOTON SALIR INDEPENDIENTE SIN USAR
                         {% if request.user.is_authenticated %}

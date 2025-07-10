@@ -9,6 +9,15 @@
 <div class="container py-5" style="max-width: 1200px;">
     <h2 class="mb-4 text-center">Listado de Recetas</h2>
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="table-responsive">
         <table class="table table-hover align-left">
             <thead class="table-light">
@@ -16,6 +25,9 @@
                     <th style="width: 80px;">Foto</th>
                     <th style="max-width: 150px;">Título</th>
                     <th style="max-width: 100px;">Categorías</th>
+                    {% if request.user.is_superuser %}
+                        <th style="width: 80px;">Autor</th>
+                    {% endif %}
                     <th style="width: 300px;" class="text-center">Acciones</th>
                 </tr>
             </thead>
@@ -42,6 +54,11 @@
                             {% endfor %}
                         </div>
                     </td>
+                    {% if request.user.is_superuser %} <!-- SOLO SE VE "AUTOR" DE LARECETA SI SE ES ADMIN / SUPERUSER -->
+                        <td style="max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                            {{ receta.autor }}
+                        </td>
+                    {% endif %}
                     <td class="text-end">
                         <a href="{% url 'detalle_receta' receta.pk %}" class="btn btn-sm btn-outline-info me-1" title="Ver"> 
                             <!-- ícono ojo -->

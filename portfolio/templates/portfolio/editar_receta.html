@@ -18,6 +18,25 @@
                 <h2 class="display-6 text-center">Editar <span style="font-weight: 900;">receta</span></h2>
             </div>
                 <!-- MENSAJE CENTRADO AQUÍ -->
+            {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+                <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                    <li><strong>{{ field.label }}:</strong>
+                        <ul>
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Mensajes con tipo dinámico -->
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
@@ -69,8 +88,9 @@
             
                 <!-- Form Receta (con edicion de texto) -->
                 <div class="mb-3">
-                    <div id="editor" style="height: 230px; border: 1px solid #ced4da; border-radius: 0.375rem;"></div>
-                    <input type="hidden" name="receta" id="receta-content" required>
+                    <div class="mb-3">
+                        {{ form.receta }}
+                    </div>
                 </div>
 
 
@@ -106,6 +126,7 @@ var quill = new Quill('#editor', {
     }
 });
 
+
 // CARGAR EL CONTENIDO EXISTENTE
 document.addEventListener('DOMContentLoaded', function() {
     var contenidoExistente = document.getElementById('contenido-inicial');
@@ -122,5 +143,7 @@ document.querySelector('form').addEventListener('submit', function() {
 
 <!-- Contenido inicial oculto -->
 <div id="contenido-inicial" style="display: none;">{{ contenido_receta|safe }}</div>
+
+{{ form.media }}
 
 {% endblock %}

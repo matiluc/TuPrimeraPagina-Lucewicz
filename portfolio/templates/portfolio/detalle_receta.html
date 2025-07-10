@@ -28,7 +28,10 @@
             <div class="my-4">
                 <div class="ck-content" style="margin-top: 4rem;">{{ receta.receta|safe }}</div>
             </div>
-
+            <div class="mt-2">
+                <p>Autor: <span style="font-weight: 900;">{{ receta.autor }}</span></p>
+            </div>
+            
             <a href="{% url 'recetas' %}" class="btn btn-secondary mt-4 text-white fw-bold">← Volver a todas las recetas</a>
         </div>
     </div>

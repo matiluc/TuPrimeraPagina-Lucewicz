@@ -12,13 +12,16 @@ class RecetaForm(forms.ModelForm):
     
     class Meta:
         model = Receta
+        exclude = ['fecha'] # PARA EXCLUIR LA EDICION DE FECHA AL MOMOENTO DE POSTEAR
         fields = ['titulo', 'foto', 'categorias', 'receta']
         widgets = {
             # estos dos son para que el nombre del campo aparezca dentro del campo
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título'}),
             'foto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             # agregue esto para poder hacer dropdown de categorias
-            'categorias': forms.SelectMultiple(attrs={'class': 'form-select'})
+            'categorias': forms.SelectMultiple(attrs={'class': 'form-select'}),
+            'receta': CKEditorWidget(),
+            'fecha': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
 
 
