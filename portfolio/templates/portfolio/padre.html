@@ -39,13 +39,79 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Home</a></li>
+
+                        <!-- RECETAS SI DESLOGUEADO -->
+                        {% if not request.user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'recetas' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Recetas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'crear_receta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Nueva receta</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'tabla_edicion_recetas' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Editar recetas</a></li>
+                        {% endif %}
+
+                        <!-- RECETAS SI LOGUEADO -->
+                        {% if request.user.is_authenticated %}  
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'recetas' %}" id="navbarDropdownRecetas" role="button" 
+                                data-bs-toggle="dropdown" aria-expanded="false"
+                                onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
+                                Recetas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownRecetas">
+                                <li><a class="dropdown-item" href="{% url 'recetas' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Ver todas</a></li>
+                                <li><a class="dropdown-item" href="{% url 'crear_receta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Crear</a></li>
+                                <li><a class="dropdown-item" href="{% url 'tabla_edicion_recetas' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Editar</a></li>
+                            </ul>
+                            </li>
+                        {% endif %}
+
+                        {% if not request.user.is_authenticated %} <!-- NEWSLETTER SOLO SI NO SE ESTÁ LOGUEADO (se supone que al ser usuario se suscribe a los newsletters) -->
                         <li class="nav-item"><a class="nav-link" href="{% url 'suscriptor' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Newsletter</a></li>
+                        {% endif %}
+
                         <li class="nav-item"><a class="nav-link" href="{% url 'tabla_edicion_suscriptores' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Suscriptores</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'pauta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Pauta</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'buscador' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Buscar</a></li>
+                        
+                        {% if not request.user.is_authenticated %}  <!-- BOTON LOGIN SOLO SI NO SE ESTÁ LOGUEADO -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Acceder</a></li>
+                        {% endif %}
+                        
+                        <!-- LOGOUT -->
+                        {% if request.user.is_authenticated %}  <!-- USUARIO Y DESPLEGABLE CON SALIR SOLO SI ESTÁ LOGUEADO -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPerfil" role="button" 
+                                data-bs-toggle="dropdown" aria-expanded="false"
+                                onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
+                                {{user.username}}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownRecetas">
+                                <li><a class="dropdown-item" href="#" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Editar Perfil</a></li>
+                             <li class="nav-item d-flex align-items-center">
+                                <form method="post" action="{% url 'salir' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="nav-link btn btn-link ms-1"
+                                            
+                                            onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
+                                        Salir
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                        </li>
+                        {% endif %}
+
+                        <!-- BOTON SALIR INDEPENDIENTE SIN USAR
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item d-flex align-items-center">
+                            <form method="post" action="{% url 'salir' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn btn-link ms-1"
+                                        style="padding: 0; margin: 0; border: none; background: none; color: inherit;"
+                                        onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
+                                    Salir
+                                </button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        -->
+
                     </ul>
                 </div>
             </div>

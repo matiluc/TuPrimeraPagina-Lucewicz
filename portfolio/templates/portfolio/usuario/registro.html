@@ -1,0 +1,52 @@
+{%  extends 'portfolio/padre.html' %} 
+
+{% load static %}
+
+{% block title %}Registro{% endblock %}
+
+{% block contenido %}
+
+<!-- TITULO-->
+<section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
+    <div class="container px-5">
+        <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+            <!-- DISPLAY-6 MODIFICA EL TAMAÑO DEL TITULO -->
+            <div class="text-center mb-5">
+                <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3"><i class="bi bi-lock-fill"></i></div>
+                <h2 class="display-6 text-center">Crear <span style="font-weight: 900;">usuario nuevo</span></h2>
+            </div>
+            
+        </div>
+        </div>
+
+        <!-- CUERPO DEL FORMULARIO -->
+        <div class="row gx-6 justify-content-center">
+            <!-- Este class maneja el ancho responsive -->
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4" style="max-width: 450px;"> 
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- Campo email-->
+                    <div>
+                        {{ form.email }}
+                    </div>
+                    <!-- Campo contraseña -->
+                    <div>
+                        {{ form.password1 }}
+                    </div>
+                    <!-- Campo repetir contraseña -->
+                    <div>
+                        {{ form.password2 }}
+                    </div>
+                    <!-- Botón suscripción -->
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="submit">Acceder</button>
+                    </div>
+                    <p class= "text-center mt-5 mb-5 mb-md-5 ">¿No tenés usuario? <a href="{% url 'registro' %}"><span style="font-weight: 900; color: blue;">Registrate</span></a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+            
+{% endblock %}

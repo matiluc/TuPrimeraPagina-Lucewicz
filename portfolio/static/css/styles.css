@@ -34,8 +34,11 @@ form input, form textarea {
   border-radius: 0.25rem;
 }
 
-
-
+/* Hacer que los dropdowns se abran al pasar el mouse */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
 
 
 

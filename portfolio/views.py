@@ -3,6 +3,14 @@ from .forms import RecetaForm, SuscriptorForm
 from .models import Receta, Suscriptor
 from django.contrib import messages
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import UserRegisterForm
+
+
+#para usuarios
+
 
 #############################################################
 
@@ -22,6 +30,7 @@ def pauta(request):
 # FUNCIONES COMPLEJAS
 
 # View de index + funcion para contar totales en bbdd
+
 def index(request):
     context = {
         'total_recetas': Receta.objects.count(),
@@ -30,6 +39,7 @@ def index(request):
     return render(request, 'portfolio/index.html', context)
 
 # View de recetas + paginación de la pagina de recetas (para ver de a tandas)
+
 def recetas(request):
     limite = int(request.GET.get('limite', 6))
     recetas = Receta.objects.order_by('-id')[:limite]
@@ -219,3 +229,41 @@ def eliminar_suscriptor(request, pk):
     
     # Si no es POST, mostrar página de confirmación
     return render(request, 'portfolio/tabla_edicion_suscriptores.html', {'suscriptor': suscriptor})
+
+#############################################################
+
+# LOGIN
+
+def login_request(request):
+    if request.method == 'POST':
+
+        form = AuthenticationForm(request, data = request.POST)
+        if form.is_valid():
+
+            usuario = form.cleaned_data.get('username')
+            contrasenia = form.cleaned_data.get('password')
+
+            user = authenticate(username= usuario, password=contrasenia)
+
+            if user is not None:
+                login(request, user)
+
+        return redirect('index')
+    form= AuthenticationForm()
+    return render(request, 'portfolio/usuario/login.html', {"form": form})
+
+
+def register(request):
+    if request.method == 'POST':
+
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+
+            username = form.cleaned_data['username']
+            form.save()
+            return render(request, 'portfolio/index.html', {"mensaje":"Usuario Creado :)"})
+        
+    else:
+        form = UserRegisterForm()
+
+    return render(request, 'portfolio/usuario/registro.html', {"form":form})

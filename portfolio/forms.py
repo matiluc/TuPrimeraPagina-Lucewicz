@@ -2,6 +2,10 @@ from django import forms
 from .models import Receta, Suscriptor
 from ckeditor.widgets import CKEditorWidget
 
+# para login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 # Formulario subida receta nueva
 class RecetaForm(forms.ModelForm):
     receta = forms.CharField(widget=CKEditorWidget())
@@ -30,3 +34,23 @@ class SuscriptorForm(forms.ModelForm):
             'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
+# Creación de usuario
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'})
+    )
+    password1 = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña', 'class': 'form-control'})
+    )
+    password2 = forms.CharField(
+        label="Repetir contraseña",
+        widget=forms.PasswordInput(attrs={'placeholder': 'Repetir contraseña', 'class': 'form-control'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+        help_texts = {k: "" for k in fields}
