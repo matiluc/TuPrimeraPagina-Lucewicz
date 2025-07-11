@@ -34,6 +34,7 @@ urlpatterns = [
     path('usuario/login', views.login_request, name='login'),
     path('usuario/registro', views.register, name='registro'),
     path('usuario/salir', LogoutView.as_view(next_page='index'), name='salir'),
+    path('usuario/perfil/<int:usuario_id>/', views.perfil_usuario, name='perfil_usuario'),
 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # pagar agregar fotos al form de recetas pero probe tantas cosas que no se sigue siendo necesario

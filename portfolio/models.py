@@ -5,7 +5,7 @@ from django.utils import timezone # para poner fecha en posteo
 
 # Class 1 = esta arriba porque me daba error al estar abajo ya que se llama en la clase Receta
 class Categorias(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
+    nombre = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.nombre

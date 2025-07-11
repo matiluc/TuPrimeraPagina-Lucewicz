@@ -26,6 +26,28 @@ def padre(request):
 def pauta(request):
     return render(request, "portfolio/pauta.html")
 
+def perfil_usuario(request, usuario_id):
+    from django.contrib.auth.models import User
+
+    # Buscamos el usuario del perfil
+    usuario_perfil = User.objects.get(id=usuario_id)
+
+    # Comprobar si el usuario logueado es el dueño del perfil
+    is_owner = request.user.id == usuario_perfil.id
+
+    # Datos que vas a mostrar (podés extender con perfil extendido si tenés)
+    contexto = {
+        "nombre": usuario_perfil.first_name,
+        "apellido": usuario_perfil.last_name,
+        "email": usuario_perfil.email,
+        # "avatar_url": "https://i.pravatar.cc/150?u=" + str(usuario_perfil.id),  # ejemplo simple de avatar
+        "biografia": "Esta es la bio del usuario (podés guardar en perfil extendido)",
+        "link": "https://example.com",
+        "is_owner": is_owner,
+    }
+
+    return render(request, "perfil.html", contexto)
+
 # def contacto(request):
 #     return render(request, "portfolio/contacto.html")
 
@@ -146,17 +168,16 @@ def crear_receta(request):
 
 def buscador(request):
     consulta = request.GET.get("q")
+    recetas = None
     if consulta:
         recetas = Receta.objects.filter(
             Q(titulo__icontains=consulta) |
             Q(categorias__nombre__icontains=consulta)
         ).distinct()
-        return render(request, "portfolio/resultados_busqueda.html", {
-            "recetas": recetas,
-            "consulta": consulta,
-        })
-    else:
-        return render(request, "portfolio/buscador.html")
+    return render(request, "portfolio/buscador.html", {
+        "consulta": consulta,
+        "recetas": recetas,
+    })
 
 #############################################################
 
