@@ -13,6 +13,9 @@ from .forms import UserRegisterForm
 # para que solo pueda editar superuser:
 from django.contrib.auth.decorators import user_passes_test, login_required
 
+# especial para búsqueda de etiquetas
+from django.db.models import Q
+
 #############################################################
 
 # FUNCIONES SIMPLES:
@@ -129,11 +132,25 @@ def crear_receta(request):
         form = RecetaForm()
     return render(request, 'portfolio/crear_receta.html', {'form': form})
 
-# Buscador de recetas + formulario de búsqueda
+# Buscador de recetas + formulario de búsqueda #### SIN BUSCAR EN ETIQUETAS
+# def buscador(request):
+#     consulta = request.GET.get("q")
+#     if consulta:
+#         recetas = Receta.objects.filter(titulo__icontains=consulta)
+#         return render(request, "portfolio/resultados_busqueda.html", {
+#             "recetas": recetas,
+#             "consulta": consulta,
+#         })
+#     else:
+#         return render(request, "portfolio/buscador.html")
+
 def buscador(request):
     consulta = request.GET.get("q")
     if consulta:
-        recetas = Receta.objects.filter(titulo__icontains=consulta)
+        recetas = Receta.objects.filter(
+            Q(titulo__icontains=consulta) |
+            Q(categorias__nombre__icontains=consulta)
+        ).distinct()
         return render(request, "portfolio/resultados_busqueda.html", {
             "recetas": recetas,
             "consulta": consulta,

@@ -25,15 +25,18 @@
         <form method="get" action="{% url 'buscador' %}">
           <div>
             <label for="busqueda" class="form-label">if hambre:</label>
-            <input type="text" class="form-control" id="busqueda" name="q" placeholder="Ej: empanadas">
+            <input type="text" class="form-control" id="busqueda" name="q" placeholder="Ej: empanadas" value="{{ consulta }}">
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary">Buscar</button>
           </div>
+          
         </form>
       </div>
     </div>
   </div>
 </section>
+
+
 
 {% endblock %}
