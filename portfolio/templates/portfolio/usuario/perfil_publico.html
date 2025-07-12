@@ -1,0 +1,93 @@
+{% extends 'portfolio/padre.html' %}
+
+{% load static %}
+
+{% block title %}Perfil Público{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">Perfil de {{ user.username }}</h2>
+
+    <div class="row justify-content-center">
+        <!-- Columna de la imagen -->
+        <div class="col-12 col-md-4 text-center mb-4">
+            {% if user.perfil.avatar %}
+                <!-- Si el usuario tiene un avatar, mostrarlo -->
+                <img src="{{ user.perfil.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;">
+            {% else %}
+                <!-- Si no tiene avatar, mostrar la imagen predeterminada -->
+                <img src="{% static 'portfolio/img/default-avatar.jpg' %}" alt="Avatar" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;">
+            {% endif %}
+        </div>
+
+        <!-- Columna de los datos del perfil -->
+        <div class="col-12 col-md-6">
+            <div class="row">
+                <!-- Nombre -->
+                <div class="col-12 mb-2 d-flex">
+                    <div class="col-4">
+                        <strong>Nombre:</strong>
+                    </div>
+                    <div class="col-8">
+                        {{ user.first_name }}
+                    </div>
+                </div>
+
+                <!-- Apellido -->
+                <div class="col-12 mb-2 d-flex">
+                    <div class="col-4">
+                        <strong>Apellido:</strong>
+                    </div>
+                    <div class="col-8">
+                        {{ user.last_name }}
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-12 mb-2 d-flex">
+                    <div class="col-4">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-8">
+                        {{ user.email }}
+                    </div>
+                </div>
+
+                <!-- Biografía -->
+                <div class="col-12 mb-2 d-flex">
+                    <div class="col-4">
+                        <strong>Biografía:</strong>
+                    </div>
+                    <div class="col-8">
+                        {% if user.perfil.biografia %}
+                            {{ user.perfil.biografia }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Recetas creadas -->
+                <div class="col-12 mb-2 d-flex">
+                    <div class="col-4">
+                        <strong>Recetas creadas:</strong>
+                    </div>
+                    <div class="col-8">
+                        {% if recetas %}
+                            <ul>
+                                {% for receta in recetas %}
+                                    <li><a href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No hay recetas creadas.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,9 +1,120 @@
-{%  extends 'portfolio/padre.html' %} 
+{% extends 'portfolio/padre.html' %}
 
 {% load static %}
 
-{% block title %}Acceder{% endblock %}
+{% block title %}Perfil{% endblock %}
 
 {% block contenido %}
 
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Mi Perfil</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Formulario para editar perfil -->
+    <form method="POST" enctype="multipart/form-data" class="row g-3 justify-content-center mx-auto" style="max-width: 500px;">
+        {% csrf_token %}
+        {{ user_form.non_field_errors }}
+        {{ perfil_form.non_field_errors }}
+
+        <!-- Avatar -->
+        <div class="col-12 text-center">
+            <label for="id_avatar" class="form-label d-block mb-2">Avatar</label>
+            {% if request.user.perfil.avatar %}
+                <!-- Si el usuario tiene un avatar, mostrarlo -->
+                <img id="avatar_preview" src="{{ request.user.perfil.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle mb-2" width="150" height="150" style="cursor: pointer;" onclick="document.getElementById('id_avatar').click();">
+            {% else %}
+                <!-- Si no tiene avatar, mostrar la imagen predeterminada -->
+                <img id="avatar_preview" src="{% static 'portfolio/img/default-avatar.jpg' %}" alt="Avatar" class="img-fluid rounded-circle mb-2" width="150" height="150" style="cursor: pointer;" onclick="document.getElementById('id_avatar').click();">
+            {% endif %}
+            <!-- Campo para subir avatar -->
+            <input type="file" name="avatar" id="id_avatar" class="form-control d-none" onchange="previewImage();">
+        </div>
+
+        <!-- Nombre -->
+        <div class="col-12">
+            <label for="id_first_name" class="form-label">Nombre</label>
+            {{ user_form.first_name }}
+        </div>
+
+        <!-- Apellido -->
+        <div class="col-12">
+            <label for="id_last_name" class="form-label">Apellido</label>
+            {{ user_form.last_name }}
+        </div>
+
+        <!-- Email -->
+        <div class="col-12">
+            <label for="id_email" class="form-label">Email</label>
+            {{ user_form.email }}
+        </div>
+
+        <!-- Biografía -->
+        <div class="col-12">
+            <label for="id_biografia" class="form-label">Biografía</label>
+            {{ perfil_form.biografia }}
+        </div>
+
+        <!-- Botón para guardar -->
+        <div class="col-12 text-center">
+            <button type="submit" name="submit_perfil" class="btn btn-primary">Guardar cambios</button>
+        </div>
+    </form>
+
+    <!-- Formulario para cambiar contraseña -->
+    <div class="mt-5">
+        <h3 class="text-center mb-4">Cambiar Contraseña</h3>
+        <form method="POST" class="row g-3 justify-content-center mx-auto" style="max-width: 500px;">
+            {% csrf_token %}
+            {{ password_form.non_field_errors }}
+
+            <div class="col-12">
+                <label for="id_old_password" class="form-label">Contraseña actual</label>
+                {{ password_form.old_password }}
+            </div>
+
+            <div class="col-12">
+                <label for="id_new_password1" class="form-label">Nueva contraseña</label>
+                {{ password_form.new_password1 }}
+            </div>
+
+            <div class="col-12">
+                <label for="id_new_password2" class="form-label">Repetir nueva contraseña</label>
+                {{ password_form.new_password2 }}
+            </div>
+
+            <div class="col-12 text-center">
+                <button type="submit" name="submit_password" class="btn btn-warning">Cambiar contraseña</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
+
+<!-- Mover el script al final, antes del cierre de la etiqueta </body> -->
+<script>
+    // Función para mostrar la vista previa de la imagen antes de enviarla al servidor
+    function previewImage() {
+        const file = document.getElementById('id_avatar').files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            // Actualiza la imagen de vista previa
+            const avatarPreview = document.getElementById('avatar_preview');
+            avatarPreview.src = e.target.result;  // Establece el src de la imagen como el archivo cargado
+            console.log('Vista previa actualizada con el archivo:', e.target.result);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file); // Lee el archivo seleccionado y genera una vista previa
+        }
+    }
+</script>

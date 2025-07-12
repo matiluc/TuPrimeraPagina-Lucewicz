@@ -25,8 +25,15 @@ class Receta(models.Model):
 # Class 3 = para crear bbdd con suscriptores al blog y posibles updates con newsletter
 class Suscriptor(models.Model):
     nombre = models.CharField(max_length=40)
-    apellido = models.CharField(max_length=40)
     email = models.EmailField()
 
     def __str__(self):
-        return f'{self.nombre} {self.apellido} {self.email}'
+        return f'{self.nombre} {self.email}'
+
+class Perfil(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='img/default-avatar.jpg')
+    biografia = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Perfil de {self.user.username}"

@@ -1,0 +1,43 @@
+{% extends 'portfolio/padre.html' %}
+
+{% load static %}
+
+{% block title %}Crear perfil{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Crear Perfil</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST" enctype="multipart/form-data" class="shadow p-4 rounded bg-light">
+                {% csrf_token %}
+                
+                <!-- Campo de Avatar -->
+                <div class="mb-3">
+                    <label for="id_avatar" class="form-label">Avatar</label>
+                    {% if perfil_form.avatar %}
+                        <img src="{{ perfil_form.avatar.value }}" alt="Avatar" class="img-fluid rounded-circle mb-3" width="150">
+                    {% else %}
+                        <img src="{% static 'default-avatar.jpg' %}" alt="Avatar" class="img-fluid rounded-circle mb-3" width="150">
+                    {% endif %}
+                    {{ perfil_form.avatar }}
+                </div>
+
+                <!-- Campo de Biografía -->
+                <div class="mb-3">
+                    <label for="id_biografia" class="form-label">Biografía</label>
+                    {{ perfil_form.biografia }}
+                </div>
+
+                <!-- Botón de envío -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Crear Perfil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

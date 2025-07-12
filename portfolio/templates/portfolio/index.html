@@ -1,41 +1,85 @@
-{%  extends 'portfolio/padre.html' %}
- 
+{% extends 'portfolio/padre.html' %}
 {% load static %}
 
 {% block title %}Inicio{% endblock %}
 
 {% block contenido %}
 
-<!-- 15vh SUBE EL CONTENIDO UN 15% AL ESTAR YA CENTRADO-->
-<div class="d-flex flex-column justify-content-center align-items-center text-center" 
-     style="padding-top: 15vh">
+<!-- PRINCIPAL -->
+<div class="container px-5 py-5">
+  <div class="row align-items-center ">
+    <!-- Columna izquierda: texto -->
+    <div class="col-md-6 text-start">
+      <div class="badge bg-gradient-primary-to-secondary text-white mb-4 d-inline-block">
+        <div class="text-uppercase">Playground Final project &middot; MATIAS LUCEWICZ</div>
+      </div>
+      <div class="fs-2 fw-dark text-muted mb-2">Recetas de cocina + Python</div>
+      <h1 class="display-1 fw-bolder mb-5">
+        <span class="text-gradient d-inline">{ A PUNTO<br>& COMA }</span>
+      </h1>
 
-    <div>
-        <div class="badge bg-gradient-primary-to-secondary text-white mb-4">
-            <div class="text-uppercase">Playground Final project &middot; MATIAS LUCEWICZ</div>
+      <!-- Contadores -->
+      <div class="d-flex gap-6">
+        <div>
+          <h3 class="display-5 fw-bold text-primary">{{ total_recetas }}</h3>
+          <p class="lead">Recetas publicadas</p>
         </div>
-        <div class="fs-2 fw-dark text-muted">Recetas de cocina + Python</div>
-        <h1 class="display-3 fw-bolder mb-5">
-            <span class="text-gradient d-inline">{ A PUNTO & COMA }</span>
-        </h1>
+        <div>
+          <h3 class="display-5 fw-bold text-primary">{{ total_suscriptores }}</h3>
+          <p class="lead">Suscriptores</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Contadores-->
-    <section class="pt-5 mt-5 w-100">
-        <div class="container px-4">
-            <div class="row text-center g-4 justify-content-center">
-                <div class="col-md-3">
-                    <h3 class="display-4 fw-bold text-primary">{{ total_recetas }}</h3>
-                    <p class="lead">Recetas publicadas</p>
-                </div>
-                <div class="col-md-3">
-                    <h3 class="display-4 fw-bold text-primary">{{ total_suscriptores }}</h3>
-                    <p class="lead">Suscriptores</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- Columna derecha: imagen -->
+    <div class="col-md-6 text-center">
+      <img src="{% static 'portfolio/img/imagen_index.png' %}" alt="Imagen Index" class="img-fluid" style="max-height: 570px;">
+    </div>
+  </div>
 </div>
+
+<!-- FORMULARIO DE SUSCRIPCIÓN -->
+<section class="bsb-blog-5 py-5">
+    <div class="container px-5"> 
+        <div class="row justify-content-center">
+        <!-- TITULO -->
+        <div class="col-md-8 text-center">
+            <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-5 mb-3">
+            <i class="bi bi-envelope"></i>
+            </div>
+            <h2 class="display-6">Suscribite al <span style="font-weight: 900;">Newsletter</span></h2>
+            <p class="text-muted mb-4">para recibir nuestros últimos commits de recetas</p>
+
+            <!-- MENSAJES -->
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        </div>
+
+    <!-- FORMULARIO -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-6">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form.nombre }}
+          </div>
+          <div class="mb-3">
+            {{ form.email }}
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" type="submit">Suscribite!</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Receta, Suscriptor
+from .models import Receta, Suscriptor, Perfil
 from ckeditor.widgets import CKEditorWidget
 
 # para login
@@ -30,13 +30,13 @@ class SuscriptorForm(forms.ModelForm):
     
     class Meta:
         model = Suscriptor
-        fields = ['nombre', 'apellido', 'email']
+        fields = ['nombre', 'email']
         # esto para el mensaje de advertencia
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
-            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
+
 # Creación de usuario
 
 class UserRegisterForm(UserCreationForm):
@@ -57,3 +57,27 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
         help_texts = {k: "" for k in fields}
+
+# Creación de perfil
+
+class PerfilForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['avatar', 'biografia']
+        widgets = {
+            'biografia': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Contanos algo sobre vos...',
+                'rows': 4
+            }),
+        }
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+        }

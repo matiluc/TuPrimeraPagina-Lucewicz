@@ -4,6 +4,7 @@ from portfolio import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
@@ -35,6 +36,13 @@ urlpatterns = [
     path('usuario/registro', views.register, name='registro'),
     path('usuario/salir', LogoutView.as_view(next_page='index'), name='salir'),
     path('usuario/perfil/<int:usuario_id>/', views.perfil_usuario, name='perfil_usuario'),
+    path('perfil/', views.perfil_usuario, name='perfil'),
+    path('perfil/crear/', views.crear_perfil, name='crear_perfil'), # crear perfil publico si el usuario no tiene
+    path('perfil/<str:username>/', views.perfil_publico, name='perfil_publico'), # ver perfil publico
+
+    # CAMBIO PASSWORDS
+    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change_form.html'), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='registration/password_change_done.html'), name='password_change_done'),
 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # pagar agregar fotos al form de recetas pero probe tantas cosas que no se sigue siendo necesario

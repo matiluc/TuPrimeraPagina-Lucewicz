@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RecetaForm, SuscriptorForm
+from .forms import RecetaForm, SuscriptorForm, PerfilForm, UserEditForm
 from .models import Receta, Suscriptor
 from django.contrib import messages
 from django.utils import timezone # PARA FECHA
@@ -16,6 +16,13 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 # especial para búsqueda de etiquetas
 from django.db.models import Q
 
+# para modificar el perfil
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .forms import UserEditForm, PerfilForm
+from .models import Perfil
+from django.contrib.auth.models import User
+
 #############################################################
 
 # FUNCIONES SIMPLES:
@@ -26,27 +33,6 @@ def padre(request):
 def pauta(request):
     return render(request, "portfolio/pauta.html")
 
-def perfil_usuario(request, usuario_id):
-    from django.contrib.auth.models import User
-
-    # Buscamos el usuario del perfil
-    usuario_perfil = User.objects.get(id=usuario_id)
-
-    # Comprobar si el usuario logueado es el dueño del perfil
-    is_owner = request.user.id == usuario_perfil.id
-
-    # Datos que vas a mostrar (podés extender con perfil extendido si tenés)
-    contexto = {
-        "nombre": usuario_perfil.first_name,
-        "apellido": usuario_perfil.last_name,
-        "email": usuario_perfil.email,
-        # "avatar_url": "https://i.pravatar.cc/150?u=" + str(usuario_perfil.id),  # ejemplo simple de avatar
-        "biografia": "Esta es la bio del usuario (podés guardar en perfil extendido)",
-        "link": "https://example.com",
-        "is_owner": is_owner,
-    }
-
-    return render(request, "perfil.html", contexto)
 
 # def contacto(request):
 #     return render(request, "portfolio/contacto.html")
@@ -57,11 +43,30 @@ def perfil_usuario(request, usuario_id):
 
 # View de index + funcion para contar totales en bbdd
 
+# def index(request):
+#     context = {
+#         'total_recetas': Receta.objects.count(),
+#         'total_suscriptores': Suscriptor.objects.count(),
+#     }
+#     return render(request, 'portfolio/index.html', context)
+
 def index(request):
+    
+    if request.method == 'POST':
+        form = SuscriptorForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # para dar una confirmacion que se sucribió ok
+            messages.success(request, '¡Te suscribiste exitosamente!')
+            return redirect('index')
+    else:
+        form = SuscriptorForm()
+
     context = {
         'total_recetas': Receta.objects.count(),
         'total_suscriptores': Suscriptor.objects.count(),
-    }
+        'form': form}
+    
     return render(request, 'portfolio/index.html', context)
 
 # View de recetas + paginación de la pagina de recetas (para ver de a tandas)
@@ -136,35 +141,48 @@ def suscriptor(request):
         form = SuscriptorForm()
     return render(request, 'portfolio/suscriptor.html', {'form': form})
 
-# Formulario crear receta
+
 def crear_receta(request):
     if request.method == 'POST':
         form = RecetaForm(request.POST, request.FILES)
         if form.is_valid():
             receta = form.save(commit=False)
-            receta.autor = request.user # asigna autor, sino me olvido
-            receta.save()
-            if not receta.fecha:
+            receta.autor = request.user  # Asignar el usuario como autor de la receta
+            if not receta.fecha:  # Si no tiene fecha, asignamos la actual
                 receta.fecha = timezone.now()
-            receta.save()
-            form.save_m2m()
+
+            receta.save()  # Guardamos la receta en la base de datos
+            form.save_m2m()  # Guardamos los datos ManyToMany (como categorías)
+
             messages.success(request, '¡La receta se creó exitosamente!')
-            return redirect('tabla_edicion_recetas')
+            return redirect('tabla_edicion_recetas')  # Redirigimos a la tabla de edición de recetas
     else:
         form = RecetaForm()
+
     return render(request, 'portfolio/crear_receta.html', {'form': form})
 
-# Buscador de recetas + formulario de búsqueda #### SIN BUSCAR EN ETIQUETAS
-# def buscador(request):
-#     consulta = request.GET.get("q")
-#     if consulta:
-#         recetas = Receta.objects.filter(titulo__icontains=consulta)
-#         return render(request, "portfolio/resultados_busqueda.html", {
-#             "recetas": recetas,
-#             "consulta": consulta,
-#         })
+# FORM DE CREAR RECETA FUNCIONANDO, ANULADO PARA PROBAR LINKEO DE RECETA CON AUTOR
+# Formulario crear receta
+# def crear_receta(request):
+#     if request.method == 'POST':
+#         form = RecetaForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             receta = form.save(commit=False)
+#             receta.autor = request.user # asigna autor, sino me olvido
+#             receta.save()
+#             if not receta.fecha:
+#                 receta.fecha = timezone.now()
+#             receta.save()
+#             form.save_m2m()
+#             messages.success(request, '¡La receta se creó exitosamente!')
+#             return redirect('tabla_edicion_recetas')
 #     else:
-#         return render(request, "portfolio/buscador.html")
+#         form = RecetaForm()
+#     return render(request, 'portfolio/crear_receta.html', {'form': form})
+
+
+
+
 
 def buscador(request):
     consulta = request.GET.get("q")
@@ -193,7 +211,7 @@ def tabla_edicion_recetas(request):
     return render(request, 'portfolio/tabla_edicion_recetas.html', {'recetas': recetas})
 
 def tabla_edicion_suscriptores(request):
-    suscriptores = Suscriptor.objects.all().order_by('apellido')
+    suscriptores = Suscriptor.objects.all().order_by('nombre')
     return render(request, 'portfolio/tabla_edicion_suscriptores.html', {'suscriptores': suscriptores})
 
 # EDITAR RECETA USA EL FORM PARA CREAR PERO MANTIENE LA INFO
@@ -333,3 +351,77 @@ def register(request):
         form = UserRegisterForm()
 
     return render(request, 'portfolio/usuario/registro.html', {'form': form})
+
+# EDICION Y VISUALIZACION PERFIL
+@login_required
+def perfil_usuario(request):
+    user = request.user
+    
+    try:
+        perfil = user.perfil
+    except Perfil.DoesNotExist:
+        return redirect('crear_perfil')
+
+    # Inicializar los formularios en todos los casos, tanto en POST como en GET
+    user_form = UserEditForm(request.POST or None, instance=user)
+    perfil_form = PerfilForm(request.POST or None, request.FILES or None, instance=perfil)  # Asegúrate de pasar request.FILES
+    password_form = PasswordChangeForm(user)
+
+    # Si la solicitud es POST, se procesan los formularios
+    if request.method == 'POST':
+        if 'submit_perfil' in request.POST:
+            # Procesamos el formulario de perfil
+            if user_form.is_valid() and perfil_form.is_valid():
+                user_form.save()  # Guardar cambios en el usuario (nombre y email)
+                perfil_form.save()  # Guardar cambios en el perfil (avatar y biografía)
+                messages.success(request, 'Tu perfil fue actualizado correctamente.')
+                return redirect('perfil')  # Redirigir al perfil para ver los cambios
+            else:
+                messages.error(request, 'Por favor, corrige los errores en el formulario.')
+
+        elif 'submit_password' in request.POST:
+            password_form = PasswordChangeForm(user, request.POST)
+            if password_form.is_valid():
+                password_form.save()  # Guardar nueva contraseña
+                update_session_auth_hash(request, password_form.user)  # Mantener sesión activa
+                messages.success(request, 'Contraseña actualizada correctamente.')
+                return redirect('perfil')
+
+    # Enviar los formularios al template (esto asegura que siempre estén inicializados)
+    return render(request, 'portfolio/usuario/perfil.html', {
+        'user_form': user_form,
+        'perfil_form': perfil_form,
+        'password_form': password_form,
+    })
+
+
+
+@login_required
+def crear_perfil(request):
+    if request.method == 'POST':
+        perfil_form = PerfilForm(request.POST, request.FILES)
+        if perfil_form.is_valid():
+            perfil = perfil_form.save(commit=False)
+            perfil.user = request.user
+            perfil.save()
+            messages.success(request, 'Perfil creado correctamente.')
+            return redirect('perfil')
+    else:
+        perfil_form = PerfilForm()
+
+    return render(request, 'portfolio/usuario/crear_perfil.html', {'perfil_form': perfil_form})
+
+# para ver perfil
+def perfil_publico(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('404')  # O cualquier URL que muestre "No encontrado"
+    
+    # Obtener todas las recetas creadas por el usuario
+    recetas = Receta.objects.filter(autor=user)
+    
+    return render(request, 'portfolio/usuario/perfil_publico.html', {
+        'user': user,
+        'recetas': recetas
+    })

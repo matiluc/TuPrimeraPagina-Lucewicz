@@ -13,7 +13,6 @@
         <table class="table table-hover align-left">
             <thead class="table-light">
                 <tr class="text-start">
-                    <th style="width: 250px; max-width: 300px;">Apellido</th>
                     <th style="width: 250px; max-width: 300px;">Nombre</th>
                     <th style="max-width: 250px;">Email</th>
                     <th style="width: 200px;" class="text-center">Acciones</th>
@@ -32,9 +31,6 @@
 
                 {% for suscriptor in suscriptores %}
                     <!-- COLUMNA TÍTULO -->
-                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
-                        {{ suscriptor.apellido }}
-                    </td>
                     <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
                         {{ suscriptor.nombre }}
                     </td>

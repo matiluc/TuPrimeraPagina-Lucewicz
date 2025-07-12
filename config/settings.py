@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'portfolio',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +145,4 @@ CKEDITOR_CONFIGS = {
 }
 # Si usas ckeditor_uploader para imágenes
 CKEDITOR_UPLOAD_PATH = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
