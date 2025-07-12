@@ -6,7 +6,9 @@ from ckeditor.widgets import CKEditorWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-# Formulario subida receta nueva
+
+# FORM RECETA NUEVA
+
 class RecetaForm(forms.ModelForm):
     receta = forms.CharField(widget=CKEditorWidget())
     
@@ -25,7 +27,8 @@ class RecetaForm(forms.ModelForm):
         }
 
 
-# Formulario Newsletter
+# FORM NEWSLETTER
+
 class SuscriptorForm(forms.ModelForm):
     
     class Meta:
@@ -37,7 +40,8 @@ class SuscriptorForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
 
-# Creación de usuario
+
+# FORM CREACIÓN USUARIO
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(
@@ -58,7 +62,8 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
         help_texts = {k: "" for k in fields}
 
-# Creación de perfil
+
+# CREACIÓN DE PERFIL
 
 class PerfilForm(forms.ModelForm):
     class Meta:
@@ -71,6 +76,8 @@ class PerfilForm(forms.ModelForm):
                 'rows': 4
             }),
         }
+
+# EDICIÓN DE PERFIL
 
 class UserEditForm(forms.ModelForm):
     class Meta:

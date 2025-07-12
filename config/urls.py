@@ -23,7 +23,7 @@ urlpatterns = [
     # EDITAR
     path('receta/editar/<int:pk>/', views.editar_receta, name='editar_receta'), # EDITAR RECETA INDIVIDUAL
     path('suscriptor/editar/<int:pk>/', views.editar_suscriptor, name='editar_suscriptor'), # EDITAR SUSCRIPTOR INDIVIDUAL
-    path('ckeditor/', include('ckeditor_uploader.urls')), # editor con estilos para el form de crear receta nueva
+    path('ckeditor/', include('ckeditor_uploader.urls')), # EDITOR DE ESTILOS PARA EL FORM DE RECETA NUEVA
     path('tabla_edicion_recetas/', views.tabla_edicion_recetas, name='tabla_edicion_recetas'),
     path('tabla_edicion_suscriptores/', views.tabla_edicion_suscriptores, name='tabla_edicion_suscriptores'),
 
@@ -37,8 +37,8 @@ urlpatterns = [
     path('usuario/salir', LogoutView.as_view(next_page='index'), name='salir'),
     path('usuario/perfil/<int:usuario_id>/', views.perfil_usuario, name='perfil_usuario'),
     path('perfil/', views.perfil_usuario, name='perfil'),
-    path('perfil/crear/', views.crear_perfil, name='crear_perfil'), # crear perfil publico si el usuario no tiene
-    path('perfil/<str:username>/', views.perfil_publico, name='perfil_publico'), # ver perfil publico
+    path('perfil/crear/', views.crear_perfil, name='crear_perfil'), # CREA PERFIL PÚBLICO SI EL USUARIO NO TIENE
+    path('perfil/<str:username>/', views.perfil_publico, name='perfil_publico'), # PARA VER PERFIL PÚBLICO
 
     # CAMBIO PASSWORDS
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change_form.html'), name='password_change'),

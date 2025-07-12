@@ -30,6 +30,7 @@ class Suscriptor(models.Model):
     def __str__(self):
         return f'{self.nombre} {self.email}'
 
+# Class 4 = para crear bbdd con perfiles con usuario, avatar y bio y foto default si no tiene
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='img/default-avatar.jpg')

@@ -143,6 +143,6 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     }
 }
-# Si usas ckeditor_uploader para imágenes
+# PARA CKEDITOR PARA SUBIR IMAGENES
 CKEDITOR_UPLOAD_PATH = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
