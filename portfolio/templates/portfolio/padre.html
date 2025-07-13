@@ -63,12 +63,23 @@
                             </li>
                         {% endif %}
 
-                        {% if not request.user.is_authenticated %} <!-- NEWSLETTER SOLO SI NO SE ESTÁ LOGUEADO (se supone que al ser usuario se suscribe a los newsletters) -->
-                        <li class="nav-item"><a class="nav-link" href="{% url 'suscriptor' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Newsletter</a></li>
-                        {% endif %}
-
-                        <li class="nav-item"><a class="nav-link" href="{% url 'pauta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Pauta</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'buscador' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Buscar</a></li>
+
+                        <!-- PAUTA PASADA DENTRO DE ABOUT -->
+                        <!-- <li class="nav-item"><a class="nav-link" href="{% url 'pauta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Pauta</a></li> -->
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'recetas' %}" id="navbarDropdownRecetas" role="button" 
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
+                            About
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownRecetas">
+                                <li><a class="dropdown-item" href="{% url 'pauta' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Pauta</a></li>
+                                <li><a class="dropdown-item" href="#" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Acerca de mí</a></li>
+                            </ul>
+
+                        </li>
                         
                         {% if not request.user.is_authenticated %}  <!-- BOTON LOGIN SOLO SI NO SE ESTÁ LOGUEADO -->
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">Acceder</a></li>
@@ -81,7 +92,7 @@
                                 data-bs-toggle="dropdown" aria-expanded="false"
                                 onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
 
-                                <!-- {# CÓDIGO PARA LA FOTO DE PERFIL EN NAVBAR PERO NO ME FUNCIONÓ#}
+                                <!-- {# CÓDIGO PARA LA FOTO DE PERFIL EN NAVBAR PERO NO ME FUNCIONÓ #}
                                 {% if request.user.perfil.foto %}
                                     <img src="{{ user.perfil.get_avatar_url }}" alt="Foto de perfil de {{ request.user.username }}" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
                                 {% else %}

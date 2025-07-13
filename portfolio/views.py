@@ -90,7 +90,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             # Opcional: Crear un perfil vacío para el nuevo usuario
-            Perfil.objects.create(user=user)
+            Perfil.objects.get_or_create(user=user)
             messages.success(request, 'Usuario creado con éxito. ¡Ya puedes iniciar sesión!')
             return redirect('login')
         else:
