@@ -38,8 +38,86 @@
   </div>
 </div>
 
+
+{% if request.user.is_authenticated %}
+    <p>Usuario logueado: {{ request.user.username }}</p>
+    {% if request.user.perfil %}
+        <p>Perfil existe. Foto URL: {{ request.user.perfil.foto.url }}</p>
+        <p>Avatar URL: {{ request.user.perfil.get_avatar_url }}</p>
+        <img src="{{ request.user.perfil.foto.url }}" alt="Test Foto" style="width: 50px; height: 50px;">
+    {% else %}
+        <p>¡ATENCIÓN! No hay objeto Perfil para este usuario.</p>
+    {% endif %}
+{% endif %}
+
+    <!-- ETIQUETAS BOTONES -->
+    
+    <section class="category-section py-5 mt-5 bg-custom-ececec">
+        <div class="container">
+            <div class="row justify-content-center text-center g-3"> {# g-3 para espaciado entre columnas #}
+
+                <div class="col-6 col-md-3 col-lg-2"> 
+                    <a href="{% url 'buscador' %}?q=vegetariano" class="category-item text-decoration-none text-dark d-block">
+                        <div class="category-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
+                            {# Aquí iría <img src="{% static 'path/to/tu_imagen_vegetariana.jpg' %}" alt="Vegetariano" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;"> #}
+                            {# Por ahora, solo un color de fondo #}
+                            <i class="bi bi-tree" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <span class="category-text fw-bold">Vegetariano</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <a href="{% url 'buscador' %}?q=vegano" class="category-item text-decoration-none text-dark d-block">
+                        <div class="category-circle bg-success d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
+                            <i class="bi bi-leaf" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <span class="category-text fw-bold">Vegano</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <a href="{% url 'buscador' %}?q=sin_tacc" class="category-item text-decoration-none text-dark d-block">
+                        <div class="category-circle bg-info d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
+                             <i class="bi bi-flower1" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <span class="category-text fw-bold">Sin TACC</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <a href="{% url 'buscador' %}?q=para_diabéticos" class="category-item text-decoration-none text-dark d-block">
+                        <div class="category-circle bg-warning d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
+                            <i class="bi bi-cake" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <span class="category-text fw-bold">Para diabéticos</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <a href="{% url 'buscador' %}?q=bajo_en_calorías" class="category-item text-decoration-none text-dark d-block">
+                        <div class="category-circle bg-danger d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
+                            <i class="bi bi-egg-fried" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <span class="category-text fw-bold">Bajo en calorías</span>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <a href="{% url 'buscador' %}?q=sin_lactosa" class="category-item text-decoration-none text-dark d-block">
+                        <div class="category-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
+                            <i class="bi bi-fish" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <span class="category-text fw-bold">Sin lactosa</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 <!-- FORMULARIO DE SUSCRIPCIÓN -->
-<section class="bsb-blog-5 py-5">
+<section class="bsb-blog-5 py-5 mt-5 mb-5">
     <div class="container px-5"> 
         <div class="row justify-content-center">
         <!-- TITULO -->
@@ -62,6 +140,8 @@
         </div>
         </div>
 
+
+        
     <!-- FORMULARIO -->
     <div class="row justify-content-center mt-4">
       <div class="col-md-6">

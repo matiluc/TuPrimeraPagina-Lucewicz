@@ -40,6 +40,9 @@ form input, form textarea {
     margin-top: 0;
 }
 
+.bg-custom-ececec {
+    background-color: #ececec; 
+}
 
 
 :root {

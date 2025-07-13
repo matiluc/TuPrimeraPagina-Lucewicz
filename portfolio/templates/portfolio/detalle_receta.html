@@ -11,27 +11,27 @@
         <div class="col-lg-8">
             
             {% if receta.foto %}
-                <img src="{{ receta.foto.url }}" class="img-fluid mb-4 rounded" alt="{{ receta.titulo }}">
-            {% endif %}
+                {# Contenedor para el Aspect Ratio 16:9 #}
 
+                <div class="ratio ratio-16x9 mb-2 rounded overflow-hidden">
+                    <img src="{{ receta.foto.url }}" class="img-fluid" alt="{{ receta.titulo }}" style="object-fit: cover;">
+                </div>
+            {% endif %}
+            <div class="text-end"> {# ¡Añade class="text-end" aquí! #}
+                <p style="font-size: small;">Publicado por <a href="{% url 'perfil_publico' receta.autor.username %}" style="color: purple" class="text-decoration-none fw-bold" >{{ receta.autor.username }}</a> el {{ receta.fecha }}</p>
+            </div>
             <h1 class="mb-3 fw-bolder">{{ receta.titulo }}</h1>
 
-            <!-- MUESTRA LA ETIQUETA-->
             {% if receta.categorias %}
-                <p>Categorías: 
-                    {% for categoria_display in receta.get_categorias_display %} {# ¡Usamos el nuevo método! #}
-                        <span class="badge bg-secondary me-1">{{ categoria_display }}</span>
-                    {% endfor %}
-                </p>
+                {% for categoria_display in receta.get_categorias_display %}
+                    <span class="badge bg-secondary me-1">{{ categoria_display }}</span>
+                {% endfor %}     
             {% else %}
                 <p>Sin categorías.</p>
             {% endif %}
 
             <div class="my-4">
-                <div class="ck-content" style="margin-top: 4rem;">{{ receta.receta|safe }}</div>
-            </div>
-            <div style="margin-top: 8rem;">
-                <p>Publicado por <span style="font-weight: 700;">{{ receta.autor }} </span>el {{ receta.fecha }}</p>
+                <div class="ck-content" style="margin-top: 2rem;">{{ receta.receta|safe }}</div>
             </div>
             
             <a href="{% url 'recetas' %}" class="btn btn-secondary mt-4 text-white fw-bold">← Volver a todas las recetas</a>
