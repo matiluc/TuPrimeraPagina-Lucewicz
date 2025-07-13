@@ -9,15 +9,6 @@
 <div class="container py-5">
     <h2 class="mb-4 text-center">Mi Perfil</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-
     <!-- Formulario para editar perfil -->
     <form method="POST" enctype="multipart/form-data" class="row g-3 justify-content-center mx-auto" style="max-width: 500px;">
         {% csrf_token %}
@@ -27,13 +18,15 @@
         <!-- Avatar -->
         <div class="col-12 text-center">
             <label for="id_avatar" class="form-label d-block mb-2">Avatar</label>
-            {% if request.user.perfil.avatar %}
-                <!-- Si el usuario tiene un avatar, mostrarlo -->
-                <img id="avatar_preview" src="{{ request.user.perfil.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle mb-2" width="150" height="150" style="cursor: pointer;" onclick="document.getElementById('id_avatar').click();">
-            {% else %}
-                <!-- Si no tiene avatar, mostrar la imagen predeterminada -->
-                <img id="avatar_preview" src="{% static 'portfolio/img/default-avatar.jpg' %}" alt="Avatar" class="img-fluid rounded-circle mb-2" width="150" height="150" style="cursor: pointer;" onclick="document.getElementById('id_avatar').click();">
-            {% endif %}
+            
+                <img id="avatar_preview"
+                    src="{{ request.user.perfil.get_avatar_url }}"
+                    alt="Avatar"
+                    class="rounded-circle"
+                    width="150" height="150"
+                    style="object-fit: cover; cursor: pointer;"
+                    onclick="document.getElementById('id_avatar').click();">
+
             <!-- Campo para subir avatar -->
             <input type="file" name="avatar" id="id_avatar" class="form-control d-none" onchange="previewImage();">
         </div>
@@ -61,7 +54,14 @@
             <label for="id_biografia" class="form-label">Biografía</label>
             {{ perfil_form.biografia }}
         </div>
-
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
         <!-- Botón para guardar -->
         <div class="col-12 text-center">
             <button type="submit" name="submit_perfil" class="btn btn-primary">Guardar cambios</button>

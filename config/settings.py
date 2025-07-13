@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',  # Añade esto para archivos estáticos
             ],
         },
     },
@@ -119,6 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'portfolio/static'), 
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -126,7 +131,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # OPCIONES DEL EDITOR DE TEXTO EN ADMIN
 CKEDITOR_CONFIGS = {
@@ -145,4 +150,3 @@ CKEDITOR_CONFIGS = {
 }
 # PARA CKEDITOR PARA SUBIR IMAGENES
 CKEDITOR_UPLOAD_PATH = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

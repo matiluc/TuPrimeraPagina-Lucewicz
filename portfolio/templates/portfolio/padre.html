@@ -89,10 +89,10 @@
                             
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownPerfil">
                                 <li>
-                                    <a class="dropdown-item" href="{% url 'perfil' %}" 
+                                    <a class="dropdown-item" href="{% url 'perfil_publico' request.user.username %}" 
                                     onmouseover="this.style.color='purple'" 
                                     onmouseout="this.style.color=''">
-                                    Editar Perfil
+                                    Ver Perfil
                                     </a>
                                 </li>
                                 

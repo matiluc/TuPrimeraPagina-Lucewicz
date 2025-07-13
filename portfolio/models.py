@@ -3,6 +3,10 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.utils import timezone # para poner fecha en posteo
 
+# para foto avatar
+from django.templatetags.static import static
+import os
+
 # Class 1 = esta arriba porque me daba error al estar abajo ya que se llama en la clase Receta
 class Categorias(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
@@ -33,8 +37,13 @@ class Suscriptor(models.Model):
 # Class 4 = para crear bbdd con perfiles con usuario, avatar y bio y foto default si no tiene
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='img/default-avatar.jpg')
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default='portfolio/img/default-avatar.jpg')
     biografia = models.TextField(blank=True)
 
     def __str__(self):
         return f"Perfil de {self.user.username}"
+    
+    def get_avatar_url(self):
+        if self.avatar and os.path.isfile(self.avatar.path):
+            return self.avatar.url
+        return static('portfolio/img/default-avatar.jpg')

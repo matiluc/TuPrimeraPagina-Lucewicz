@@ -20,7 +20,10 @@
                     {% if perfil_form.avatar %}
                         <img src="{{ perfil_form.avatar.value }}" alt="Avatar" class="img-fluid rounded-circle mb-3" width="150">
                     {% else %}
-                        <img src="{% static 'default-avatar.jpg' %}" alt="Avatar" class="img-fluid rounded-circle mb-3" width="150">
+                <img src="{% static 'portfolio/img/default-avatar.jpg' %}"
+                    alt="Avatar"
+                    class="rounded-circle img-thumbnail d-block mx-auto mb-3"
+                    style="width: 150px; height: 150px; object-fit: cover;">
                     {% endif %}
                     {{ perfil_form.avatar }}
                 </div>

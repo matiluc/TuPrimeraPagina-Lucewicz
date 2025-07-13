@@ -7,83 +7,67 @@
 {% block contenido %}
 
 <div class="container py-5">
-    <h2 class="text-center mb-4">Perfil de {{ user.username }}</h2>
-
     <div class="row justify-content-center">
-        <!-- Columna de la imagen -->
-        <div class="col-12 col-md-4 text-center mb-4">
-            {% if user.perfil.avatar %}
-                <!-- Si el usuario tiene un avatar, mostrarlo -->
-                <img src="{{ user.perfil.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;">
-            {% else %}
-                <!-- Si no tiene avatar, mostrar la imagen predeterminada -->
-                <img src="{% static 'portfolio/img/default-avatar.jpg' %}" alt="Avatar" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;">
-            {% endif %}
-        </div>
+        <div class="col-12 col-md-8">
+            <div class="card shadow-sm border-0 rounded-lg">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Perfil de {{ user.username }}</h2>
+                    <hr>
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-4 text-center mb-4 mb-md-0">
+                            <img id="avatar_preview"
+                                src="{{ user.perfil.get_avatar_url }}"
+                                alt="Avatar"
+                                class="rounded-circle img-fluid shadow-sm"
+                                style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
 
-        <!-- Columna de los datos del perfil -->
-        <div class="col-12 col-md-6">
-            <div class="row">
-                <!-- Nombre -->
-                <div class="col-12 mb-2 d-flex">
-                    <div class="col-4">
-                        <strong>Nombre:</strong>
-                    </div>
-                    <div class="col-8">
-                        {{ user.first_name }}
-                    </div>
-                </div>
-
-                <!-- Apellido -->
-                <div class="col-12 mb-2 d-flex">
-                    <div class="col-4">
-                        <strong>Apellido:</strong>
-                    </div>
-                    <div class="col-8">
-                        {{ user.last_name }}
-                    </div>
-                </div>
-
-                <!-- Email -->
-                <div class="col-12 mb-2 d-flex">
-                    <div class="col-4">
-                        <strong>Email:</strong>
-                    </div>
-                    <div class="col-8">
-                        {{ user.email }}
-                    </div>
-                </div>
-
-                <!-- Biografía -->
-                <div class="col-12 mb-2 d-flex">
-                    <div class="col-4">
-                        <strong>Biografía:</strong>
-                    </div>
-                    <div class="col-8">
-                        {% if user.perfil.biografia %}
-                            {{ user.perfil.biografia }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- Recetas creadas -->
-                <div class="col-12 mb-2 d-flex">
-                    <div class="col-4">
-                        <strong>Recetas creadas:</strong>
-                    </div>
-                    <div class="col-8">
-                        {% if recetas %}
-                            <ul>
-                                {% for receta in recetas %}
-                                    <li><a href="{% url 'detalle_receta' receta.pk %}">{{ receta.titulo }}</a></li>
-                                {% endfor %}
+                        <div class="col-12 col-md-8">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>Nombre:</strong>
+                                    <span>{{ user.first_name|default:"-" }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>Apellido:</strong>
+                                    <span>{{ user.last_name|default:"-" }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>Email:</strong>
+                                    <span>{{ user.email|default:"-" }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Biografía:</strong>
+                                    <p class="mt-2 mb-0">{{ user.perfil.biografia|default:"No hay biografía." }}</p>
+                                </li>
                             </ul>
-                        {% else %}
-                            <p>No hay recetas creadas.</p>
-                        {% endif %}
+                        </div>
                     </div>
+
+                    {% if user.is_authenticated and user.id == request.user.id %}
+                    <div class="text-center mt-4">
+                        <a href="{% url 'perfil' %}" class="btn btn-primary">Editar Perfil</a> 
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-lg mt-4">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-3">Recetas creadas por {{ user.username }}</h4>
+                    <hr>
+                    {% if recetas %}
+                        <div class="list-group">
+                            {% for receta in recetas %}
+                                <a href="{% url 'detalle_receta' receta.pk %}" class="list-group-item list-group-item-action">
+                                    {{ receta.titulo }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted">No hay recetas creadas por este usuario.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
