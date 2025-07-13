@@ -1,0 +1,91 @@
+{% extends 'portfolio/padre.html' %}
+
+{% load static %}
+
+{% block title %}Administrar Usuarios{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5" style="max-width: 1200px;">
+    <h2 class="mb-4 text-center">Listado de Usuarios Registrados</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-hover align-left">
+            <thead class="table-light">
+                <tr class="text-start">
+                    <th style="width: 80px;">Avatar</th>
+                    <th style="max-width: 150px;">Username</th>
+                    <th style="max-width: 200px;">Email</th>
+                    <th style="width: 100px;">Staff</th>
+                    <th style="width: 100px;">Superuser</th>
+                    <th style="width: 300px;" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in usuarios %}
+                <tr>
+                    <td>
+                        {% if user.perfil %} 
+                            <img src="{{ user.perfil.get_avatar_url }}" alt="Avatar de {{ user.username }}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 5px;">
+                        {% else %}
+                            <img src="{% static 'portfolio/img/default-avatar.jpg' %}" alt="Sin avatar" style="width: 60px; height: 40px; object-fit: cover; border-radius: 5px;">
+                        {% endif %}
+                    </td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                        {{ user.username }}
+                    </td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                        {{ user.email }}
+                    </td>
+                    <td>
+                        {% if user.is_staff %}
+                            <span class="badge bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge bg-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.is_superuser %}
+                            <span class="badge bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge bg-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        {# Mantén el enlace a perfil público si lo necesitas #}
+                        <a href="{% url 'perfil_publico' user.username %}" class="btn btn-sm btn-outline-info me-1" title="Ver Perfil"> 
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                        <a href="{% url 'editar_usuario_superuser' user.pk %}" class="btn btn-sm btn-outline-warning me-1" title="Editar">
+                           <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        
+                        {# FORMULARIO PARA ELIMINAR USUARIO (¡Este es el que te interesa!) #}
+                        <form method="post" action="{% url 'eliminar_usuario_superuser' user.pk %}" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar al usuario {{ user.username }}? Esta acción no se puede deshacer.');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar" {% if user.pk == request.user.pk %}disabled{% endif %} onclick="event.stopPropagation();">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay usuarios registrados en la base de datos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

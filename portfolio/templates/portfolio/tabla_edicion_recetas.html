@@ -33,40 +33,36 @@
             </thead>
             <tbody>
                 {% for receta in recetas %}
+                <tr>
                     <td>
-                    {% if receta.foto %}
-                        <img src="{{ receta.foto.url }}" alt="{{ receta.titulo }}" style="width: 60px; height: 40px; object-fit: cover;">
-                    {% else %}
-                        <img src="{% static 'portfolio/img/imagen_default.jpg' %}" alt="Sin foto" style="width: 60px; height: 40px; object-fit: cover;">
-                    {% endif %}
+                        {% if receta.foto %}
+                            <img src="{{ receta.foto.url }}" alt="{{ receta.titulo }}" style="width: 60px; height: 40px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'portfolio/img/imagen_default.jpg' %}" alt="Sin foto" style="width: 60px; height: 40px; object-fit: cover;">
+                        {% endif %}
                     </td>
-                    <!-- COLUMNA TÍTULO -->
                     <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
                         {{ receta.titulo }}
                     </td>
-                    <!-- COLUMNA CATEGORÍA -->
                     <td style="max-width: 200px;" class="text-start">
                         <div style="display: flex; flex-wrap: wrap; gap: 2px;">
-                            {% for cat in receta.categorias.all %}
-                                <span class="badge bg-secondary me-1 mb-1" style="background-color: #9b9b9b !important;">{{ cat.nombre }}</span>
+                            {% for categoria_display in receta.get_categorias_display %}
+                                <span class="badge bg-secondary me-1 mb-1" style="background-color: #9b9b9b !important;">{{ categoria_display }}</span>
                             {% empty %}
                                 <span class="text-muted">Sin categorías</span>
                             {% endfor %}
                         </div>
                     </td>
-                    {% if request.user.is_superuser %} <!-- SOLO SE VE "AUTOR" DE LARECETA SI SE ES ADMIN / SUPERUSER -->
-                        <td style="max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
+                    {% if request.user.is_superuser %} <td style="max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" class="text-start">
                             {{ receta.autor }}
                         </td>
                     {% endif %}
                     <td class="text-end">
                         <a href="{% url 'detalle_receta' receta.pk %}" class="btn btn-sm btn-outline-info me-1" title="Ver"> 
-                            <!-- ícono ojo -->
                             <i class="bi bi-eye"></i>
                             Ver
                         </a>
                         <a href="{% url 'editar_receta' receta.pk %}" class="btn btn-sm btn-outline-warning me-1" title="Editar">
-                            <!-- ícono lápiz -->
                             <i class="bi bi-pencil"></i>
                             Editar
                         </a>
@@ -81,7 +77,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4" class="text-center">No hay recetas cargadas.</td>
+                    <td colspan="5" class="text-center">No hay recetas cargadas.</td> {# Ajuste el colspan si es necesario #}
                 </tr>
                 {% endfor %}
             </tbody>

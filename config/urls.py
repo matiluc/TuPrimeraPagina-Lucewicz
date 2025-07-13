@@ -26,6 +26,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')), # EDITOR DE ESTILOS PARA EL FORM DE RECETA NUEVA
     path('tabla_edicion_recetas/', views.tabla_edicion_recetas, name='tabla_edicion_recetas'),
     path('tabla_edicion_suscriptores/', views.tabla_edicion_suscriptores, name='tabla_edicion_suscriptores'),
+    path('tabla_edicion_usuarios/', views.tabla_edicion_usuarios, name='tabla_edicion_usuarios'),
 
     # ELIMINAR
     path('receta/eliminar/<int:pk>/', views.eliminar_receta, name='eliminar_receta'),
@@ -35,10 +36,12 @@ urlpatterns = [
     path('usuario/login', views.login_request, name='login'),
     path('usuario/registro', views.register, name='registro'),
     path('usuario/salir', LogoutView.as_view(next_page='index'), name='salir'),
-    path('usuario/perfil/<int:usuario_id>/', views.perfil_usuario, name='perfil_usuario'),
     path('perfil/', views.perfil_usuario, name='perfil'),
-    path('perfil/crear/', views.crear_perfil, name='crear_perfil'), # CREA PERFIL PÚBLICO SI EL USUARIO NO TIENE
+    path('perfil/crear/', views.crear_perfil, name='crear_perfil'),
     path('perfil/<str:username>/', views.perfil_publico, name='perfil_publico'), # PARA VER PERFIL PÚBLICO
+    path('tabla_edicion_usuarios/', views.tabla_edicion_usuarios, name='tabla_edicion_usuarios'), # TABLA EDICION USUARIOS
+    path('usuarios/editar/<int:pk>/', views.perfil_usuario, name='editar_usuario_superuser'), 
+    path('usuarios/eliminar/<int:pk>/', views.eliminar_usuario_superuser, name='eliminar_usuario_superuser'),
 
     # CAMBIO PASSWORDS
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change_form.html'), name='password_change'),

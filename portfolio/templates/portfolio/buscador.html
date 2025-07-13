@@ -26,8 +26,8 @@
           <div>
             <label for="busqueda" class="form-label">if hambre:</label>
             <input type="text" class="form-control" id="busqueda" name="q"
-                    placeholder="Ej: empanadas"
-                    value="{% if consulta %}{{ consulta }}{% endif %}">
+                   placeholder="Ej: empanadas"
+                   value="{% if consulta %}{{ consulta }}{% endif %}">
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary">Buscar</button>
@@ -66,6 +66,7 @@
                     {% endif %}
                   </div>
                 </a>
+                {# Si tenías alguna superposición de texto o icono en la imagen al pasar el mouse, iría aquí, como en tu otro código #}
               </figure>
               <div class="card-body p-0">
                 <h2 class="card-title h5">
@@ -73,6 +74,20 @@
                     {{ receta.titulo }}
                   </a>
                 </h2>
+                {# INICIO DEL CÓDIGO AÑADIDO PARA MOSTRAR LAS CATEGORÍAS #}
+                {% if receta.categorias %} {# Verifica si la lista de categorías no está vacía #}
+                    <div class="mt-2" style="display: flex; flex-wrap: wrap; gap: 2px;">
+                        {% for categoria_display in receta.get_categorias_display %}
+                            <span class="badge bg-secondary me-1 mb-1" style="background-color: #9b9b9b !important;">{{ categoria_display }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {# Opcional: Mostrar un texto si no hay categorías, o simplemente dejarlo vacío #}
+                    <div class="mt-2">
+                        <span class="text-muted small">Sin categorías</span>
+                    </div>
+                {% endif %}
+                {# FIN DEL CÓDIGO AÑADIDO #}
               </div>
             </div>
           </article>
@@ -87,8 +102,5 @@
   </div>
 </section>
 {% endif %}
-
-
-
 
 {% endblock %}

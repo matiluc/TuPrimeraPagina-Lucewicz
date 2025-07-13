@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecetaForm, SuscriptorForm, PerfilForm, UserEditForm
-from .models import Receta, Suscriptor
+from .models import Receta, Suscriptor, CATEGORIA_CHOICES
 from django.contrib import messages
 from django.utils import timezone # PARA FECHA
 
@@ -22,6 +22,7 @@ from django.contrib.auth import update_session_auth_hash
 from .forms import UserEditForm, PerfilForm
 from .models import Perfil
 from django.contrib.auth.models import User
+
 
 #############################################################
 
@@ -147,15 +148,14 @@ def crear_receta(request):
         form = RecetaForm(request.POST, request.FILES)
         if form.is_valid():
             receta = form.save(commit=False)
-            receta.autor = request.user  # AUTOR
-            if not receta.fecha:  # ASIGNA FECHA ACTUAL SI NO TIENE
+            receta.autor = request.user
+            if not receta.fecha:
                 receta.fecha = timezone.now()
 
             receta.save()
-            form.save_m2m()  # GUARDA MANY TO MANY COMO CATEGORÍAS
 
             messages.success(request, '¡La receta se creó exitosamente!')
-            return redirect('tabla_edicion_recetas')  # Redirigimos a la tabla de edición de recetas
+            return redirect('tabla_edicion_recetas')
     else:
         form = RecetaForm()
 
@@ -187,10 +187,22 @@ def buscador(request):
     consulta = request.GET.get("q")
     recetas = None
     if consulta:
-        recetas = Receta.objects.filter(
-            Q(titulo__icontains=consulta) |
-            Q(categorias__nombre__icontains=consulta)
-        ).distinct()
+        q_objects = Q(titulo__icontains=consulta)
+        
+        consulta_normalizada = consulta.lower().replace(' ', '_')
+        q_objects |= Q(categorias__icontains=consulta_normalizada)
+    
+        matched_category_values = []
+        for val, label in CATEGORIA_CHOICES:
+            if consulta.lower() in label.lower():
+                matched_category_values.append(val)
+        
+        if matched_category_values:
+            for val in matched_category_values:
+                q_objects |= Q(categorias__icontains=val)
+
+        recetas = Receta.objects.filter(q_objects).distinct()
+    
     return render(request, "portfolio/buscador.html", {
         "consulta": consulta,
         "recetas": recetas,
@@ -201,6 +213,10 @@ def buscador(request):
 
 # EDITAR
 
+# PARA QUE SOLO EL ADMIN PUEDA EDITAR
+def solo_superuser(user):
+    return user.is_superuser
+
 @login_required
 def tabla_edicion_recetas(request):
     if request.user.is_superuser:
@@ -210,9 +226,30 @@ def tabla_edicion_recetas(request):
     
     return render(request, 'portfolio/tabla_edicion_recetas.html', {'recetas': recetas})
 
-def tabla_edicion_suscriptores(request):
-    suscriptores = Suscriptor.objects.all().order_by('nombre')
-    return render(request, 'portfolio/tabla_edicion_suscriptores.html', {'suscriptores': suscriptores})
+
+# TABLA EDICION DE USUARIOS
+
+@user_passes_test(solo_superuser)
+def tabla_edicion_usuarios(request):
+    usuarios = User.objects.all().order_by('username')
+    return render(request, 'portfolio/tabla_edicion_usuarios.html', {'usuarios': usuarios})
+
+# ELIMINAR USUARIOS COMO ADMIN
+
+@login_required
+@user_passes_test(solo_superuser)
+def eliminar_usuario_superuser(request, pk):
+    user_to_delete = get_object_or_404(User, pk=pk)
+    
+    if request.method == 'POST':
+        if request.user.pk == user_to_delete.pk:
+            messages.error(request, "No puedes eliminar tu propia cuenta de superusuario.")
+        else:
+            user_to_delete.delete()
+            messages.success(request, f'¡Usuario "{user_to_delete.username}" eliminado exitosamente!')
+        
+        return redirect('tabla_edicion_usuarios')
+    return redirect('tabla_edicion_usuarios')
 
 
 # EDITAR RECETA USA EL FORM PARA CREAR PERO MANTIENE LA INFO
@@ -226,7 +263,6 @@ def editar_receta(request, pk):
         return redirect('recetas')
 
     if request.method == 'POST':
-        # MANEJO DE BORRADO DE FOTO
         if 'foto-clear' in request.POST and receta.foto:
             receta.foto.delete()
             receta.foto = None
@@ -240,11 +276,10 @@ def editar_receta(request, pk):
             return redirect('tabla_edicion_recetas')
         else:
             messages.error(request, 'Hubo un error al guardar la receta.')
-            print(form.errors)  # PARA DEPURAR EN CONSOLA ERRORES
+            print(form.errors)
     else:
         form = RecetaForm(instance=receta)
     
-    # CONTENIDO DE RECETA AL TEMPLATE
     context = {
         'form': form, 
         'receta': receta,
@@ -256,9 +291,11 @@ def editar_receta(request, pk):
 
 # PERMISOS DE SUPERUSER PARA EDITAR
 
-def solo_superuser(user):
-    return user.is_superuser
 
+@user_passes_test(solo_superuser)
+def tabla_edicion_suscriptores(request):
+    suscriptores = Suscriptor.objects.all().order_by('nombre')
+    return render(request, 'portfolio/tabla_edicion_suscriptores.html', {'suscriptores': suscriptores})
 
 # EDITAR SUSCRIPTOR (SOLO SUPERUSER / ADMIN)
 
@@ -358,42 +395,73 @@ def register(request):
 # EDICION Y VISUALIZACION PERFIL
 
 @login_required
-def perfil_usuario(request):
-    user = request.user
+def perfil_usuario(request, pk=None): # ¡Añadimos 'pk=None' para hacerlo opcional!
+    # Determina qué usuario estamos editando
+    is_editing_other_user = False
+    if pk: # Si se proporcionó un PK, un superusuario está editando a otro
+        if not request.user.is_superuser: # Si no es superusuario, no puede editar a otros
+            messages.error(request, "No tienes permisos para editar otros perfiles.")
+            return redirect('index') # O a donde creas conveniente
+        
+        user_to_edit = get_object_or_404(User, pk=pk)
+        is_editing_other_user = True
+    else: # Si no hay PK, el usuario logueado está editando su propio perfil
+        user_to_edit = request.user
     
+    # Intenta obtener el perfil asociado. Si no existe, lo redirige a crear_perfil solo si es su propio perfil.
     try:
-        perfil = user.perfil
+        perfil = user_to_edit.perfil
     except Perfil.DoesNotExist:
-        return redirect('crear_perfil')
+        if not is_editing_other_user: # Solo redirige si es el propio usuario sin perfil
+            return redirect('crear_perfil')
+        else: # Si es superusuario editando a alguien sin perfil, crea uno directamente
+            perfil = Perfil.objects.create(user=user_to_edit)
 
-    # INICIALIZA FORMS
-    user_form = UserEditForm(request.POST or None, instance=user)
+
+    # INICIALIZA FORMS (usando user_to_edit en lugar de request.user)
+    user_form = UserEditForm(request.POST or None, instance=user_to_edit)
     perfil_form = PerfilForm(request.POST or None, request.FILES or None, instance=perfil)
-    password_form = PasswordChangeForm(user)
+    
+    # El formulario de cambio de contraseña SOLO se inicializa si NO estamos editando a otro usuario
+    password_form = None
+    if not is_editing_other_user:
+        password_form = PasswordChangeForm(user_to_edit)
 
     if request.method == 'POST':
         if 'submit_perfil' in request.POST:
             if user_form.is_valid() and perfil_form.is_valid():
-                user_form.save()  # GUARDA CAMBIOSA EN USUARIO (NOMBRE Y EMAIL)
-                perfil_form.save()  # GUARDA CAMBIOS EN PERFIL (AVATAR Y BIO)
-                messages.success(request, 'Tu perfil fue actualizado correctamente.')
-                return redirect('perfil')  # 
+                user_form.save()
+                perfil_form.save()
+                if is_editing_other_user:
+                    messages.success(request, f'¡El perfil de "{user_to_edit.username}" fue actualizado correctamente por el superusuario!')
+                    return redirect('tabla_edicion_usuarios') # Redirige a la tabla si el superusuario editó
+                else:
+                    messages.success(request, 'Tu perfil fue actualizado correctamente.')
+                    return redirect('perfil') # Redirige a su propio perfil
             else:
                 messages.error(request, 'Por favor, corrige los errores en el formulario.')
 
-        elif 'submit_password' in request.POST:
-            password_form = PasswordChangeForm(user, request.POST)
+        # La lógica de cambio de contraseña SOLO se ejecuta si NO estamos editando a otro usuario
+        elif 'submit_password' in request.POST and not is_editing_other_user:
+            password_form = PasswordChangeForm(user_to_edit, request.POST)
             if password_form.is_valid():
                 password_form.save()
-                update_session_auth_hash(request, password_form.user) # ESTO MANTIENE SESION ACTIVA
+                update_session_auth_hash(request, password_form.user)
                 messages.success(request, 'Contraseña actualizada correctamente.')
-                return redirect('perfil')
+                return redirect('perfil') # Redirige a su propio perfil (debe ser el suyo)
+            else:
+                messages.error(request, 'Por favor, corrige los errores en el formulario de contraseña.')
 
-    return render(request, 'portfolio/usuario/perfil.html', {
+    context = {
         'user_form': user_form,
         'perfil_form': perfil_form,
-        'password_form': password_form,
-    })
+        'password_form': password_form, # Será None si is_editing_other_user es True
+        'is_editing_other_user': is_editing_other_user, # Para que el template sepa el contexto
+        'editing_target_username': user_to_edit.username, # Para mostrar el nombre del usuario que se edita
+        'user': user_to_edit, # El usuario que se está editando (para mostrar su información)
+        'perfil': perfil, # El perfil del usuario que se está editando
+    }
+    return render(request, 'portfolio/usuario/perfil.html', context)
 
 
 # CREAR PERFIL CON LOGIN REQUERIDO
