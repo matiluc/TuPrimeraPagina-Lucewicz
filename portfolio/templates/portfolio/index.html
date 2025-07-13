@@ -39,17 +39,6 @@
 </div>
 
 
-{% if request.user.is_authenticated %}
-    <p>Usuario logueado: {{ request.user.username }}</p>
-    {% if request.user.perfil %}
-        <p>Perfil existe. Foto URL: {{ request.user.perfil.foto.url }}</p>
-        <p>Avatar URL: {{ request.user.perfil.get_avatar_url }}</p>
-        <img src="{{ request.user.perfil.foto.url }}" alt="Test Foto" style="width: 50px; height: 50px;">
-    {% else %}
-        <p>¡ATENCIÓN! No hay objeto Perfil para este usuario.</p>
-    {% endif %}
-{% endif %}
-
     <!-- ETIQUETAS BOTONES -->
     
     <section class="category-section py-5 mt-5 bg-custom-ececec">
@@ -77,7 +66,7 @@
                 </div>
 
                 <div class="col-6 col-md-3 col-lg-2">
-                    <a href="{% url 'buscador' %}?q=sin_tacc" class="category-item text-decoration-none text-dark d-block">
+                    <a href="{% url 'buscador' %}?q=sin tacc" class="category-item text-decoration-none text-dark d-block">
                         <div class="category-circle bg-info d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
                              <i class="bi bi-flower1" style="font-size: 2rem; color: white;"></i>
                         </div>
@@ -86,7 +75,7 @@
                 </div>
 
                 <div class="col-6 col-md-3 col-lg-2">
-                    <a href="{% url 'buscador' %}?q=para_diabéticos" class="category-item text-decoration-none text-dark d-block">
+                    <a href="{% url 'buscador' %}?q=para diabéticos" class="category-item text-decoration-none text-dark d-block">
                         <div class="category-circle bg-warning d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
                             <i class="bi bi-cake" style="font-size: 2rem; color: white;"></i>
                         </div>
@@ -95,7 +84,7 @@
                 </div>
 
                 <div class="col-6 col-md-3 col-lg-2">
-                    <a href="{% url 'buscador' %}?q=bajo_en_calorías" class="category-item text-decoration-none text-dark d-block">
+                    <a href="{% url 'buscador' %}?q=bajo en calorías" class="category-item text-decoration-none text-dark d-block">
                         <div class="category-circle bg-danger d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
                             <i class="bi bi-egg-fried" style="font-size: 2rem; color: white;"></i>
                         </div>
@@ -104,7 +93,7 @@
                 </div>
 
                 <div class="col-6 col-md-3 col-lg-2">
-                    <a href="{% url 'buscador' %}?q=sin_lactosa" class="category-item text-decoration-none text-dark d-block">
+                    <a href="{% url 'buscador' %}?q=sin lactosa" class="category-item text-decoration-none text-dark d-block">
                         <div class="category-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 120px; height: 120px; border-radius: 50%;">
                             <i class="bi bi-fish" style="font-size: 2rem; color: white;"></i>
                         </div>

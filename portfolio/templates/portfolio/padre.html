@@ -81,14 +81,14 @@
                                 data-bs-toggle="dropdown" aria-expanded="false"
                                 onmouseover="this.style.color='purple'" onmouseout="this.style.color=''">
 
-                                {# INICIO DEL CÓDIGO PARA LA FOTO DE PERFIL #}
+                                <!-- {# CÓDIGO PARA LA FOTO DE PERFIL EN NAVBAR PERO NO ME FUNCIONÓ#}
                                 {% if request.user.perfil.foto %}
                                     <img src="{{ user.perfil.get_avatar_url }}" alt="Foto de perfil de {{ request.user.username }}" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
                                 {% else %}
                                     {# Fallback: icono si no hay foto de perfil #}
                                     <i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
                                 {% endif %}
-                                {# FIN DEL CÓDIGO PARA LA FOTO DE PERFIL #}
+                                {# FIN DEL CÓDIGO PARA LA FOTO DE PERFIL #} -->
                                 
                                 {% if request.user.is_superuser %}
                                     ADMIN

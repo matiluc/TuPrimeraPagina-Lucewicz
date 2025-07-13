@@ -1,2 +1,17 @@
 venv/
     __pycache__/
+
+# ENTORNO VIRTUAL
+venv/
+
+# CACHE
+__pycache__/
+psycache/
+
+# BBDD
+db.sqlite3
+        __pycache__/
+
+# ARCHIVOS
+media/
+        __pycache__/

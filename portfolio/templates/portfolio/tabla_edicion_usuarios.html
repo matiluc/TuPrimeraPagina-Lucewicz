@@ -61,7 +61,7 @@
                         {% endif %}
                     </td>
                     <td class="text-end">
-                        {# Mantén el enlace a perfil público si lo necesitas #}
+                        {# PERFIL PÚBLICO #}
                         <a href="{% url 'perfil_publico' user.username %}" class="btn btn-sm btn-outline-info me-1" title="Ver Perfil"> 
                             <i class="bi bi-eye"></i> Ver
                         </a>
@@ -69,7 +69,7 @@
                            <i class="bi bi-pencil"></i> Editar
                         </a>
                         
-                        {# FORMULARIO PARA ELIMINAR USUARIO (¡Este es el que te interesa!) #}
+                        {# FORMULARIO PARA ELIMINAR USUARIO #}
                         <form method="post" action="{% url 'eliminar_usuario_superuser' user.pk %}" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar al usuario {{ user.username }}? Esta acción no se puede deshacer.');">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar" {% if user.pk == request.user.pk %}disabled{% endif %} onclick="event.stopPropagation();">
