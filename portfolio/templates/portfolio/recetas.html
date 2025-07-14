@@ -77,7 +77,10 @@
                 </article>
             </div>
 
-
+            {% empty %}
+                <div class="col-12">
+                    <p class="text-center lead">No hay recetas disponibles en este momento.</p>
+                </div>
             {% endfor %}
 
 
