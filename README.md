@@ -1,14 +1,13 @@
 # Playground Final Project 
 
 ```
+Alumno: Matias Lucewicz
 Proyecto: Blog de recetas de cocina "a punto & coma"
 Tecnologías: Python + Django + Bootstrap + SQLite3
 Curso: Python Flex
 Comisión: #78110
 Profesor: Alan Exequiel Prestia
 ```
-
-Alumno: Matias Lucewicz
 
 LinkedIn: [/matiaslucewicz](https://www.linkedin.com/in/matiaslucewicz/)
 
