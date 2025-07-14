@@ -8,16 +8,6 @@
 
 <div class="container py-5" style="max-width: 1200px;">
     <h2 class="mb-4 text-center">Listado de Usuarios Registrados</h2>
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                <strong>{{ message }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-
     <div class="table-responsive">
         <table class="table table-hover align-left">
             <thead class="table-light">

@@ -54,14 +54,6 @@
             <label for="id_biografia" class="form-label">Biografía</label>
             {{ perfil_form.biografia }}
         </div>
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
         <!-- Botón para guardar -->
         <div class="col-12 text-center">
             <button type="submit" name="submit_perfil" class="btn btn-primary">Guardar cambios</button>

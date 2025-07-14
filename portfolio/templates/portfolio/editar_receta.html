@@ -18,33 +18,6 @@
                 <h2 class="display-6 text-center">Editar <span style="font-weight: 900;">receta</span></h2>
             </div>
                 <!-- MENSAJE CENTRADO AQUÍ -->
-            {% if form.errors %}
-            <div class="alert alert-danger mt-3">
-                <ul>
-                {% for field in form %}
-                    {% if field.errors %}
-                    <li><strong>{{ field.label }}:</strong>
-                        <ul>
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                        </ul>
-                    </li>
-                    {% endif %}
-                {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
-
-            <!-- Mensajes con tipo dinámico -->
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
         </div>
         </div>
 
