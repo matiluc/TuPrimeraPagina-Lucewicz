@@ -2,25 +2,17 @@
 
 ```
 Proyecto: Blog de recetas de cocina "a punto & coma"
-
 Tecnologías: Python + Django + Bootstrap
-```
-
-```
 Curso: Python Flex
-
 Comisión: #78110
-
 Profesor: Alan Exequiel Prestia
 ```
 
-```
 Alumno: Matias Lucewicz
 
 LinkedIn: [/matiaslucewicz](https://www.linkedin.com/in/matiaslucewicz/)
 
 Video Demostración: #
-```
 
 ## Funcionalidades del sitio:
 
