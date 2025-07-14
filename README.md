@@ -1,8 +1,8 @@
-# Playground Final project 
+# Playground Final Project 
 
 ```
 Proyecto: Blog de recetas de cocina "a punto & coma"
-Tecnologías: Python + Django + Bootstrap
+Tecnologías: Python + Django + Bootstrap + SQLite3
 Curso: Python Flex
 Comisión: #78110
 Profesor: Alan Exequiel Prestia
