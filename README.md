@@ -22,9 +22,9 @@ LinkedIn: [/matiaslucewicz](https://www.linkedin.com/in/matiaslucewicz/)
 Video Demostración: #
 ```
 
-Funcionalidades del sitio:
+## Funcionalidades del sitio:
 
-Los usuarios no registrados pueden realizar las siguientes accciones:
+### Los usuarios no registrados pueden realizar las siguientes accciones:
 
     · Navegar por el index, elegir un tipo de alimento el cual redirige al buscador con 
     dicha búsqueda, suscribirse a un newsletter, y además acceder al linkedin, behance 
@@ -44,7 +44,7 @@ Los usuarios no registrados pueden realizar las siguientes accciones:
     · Registrarse en el sitio ingresando usuario, email y contraseña.
 
 
-Los usuarios ya registrados pueden realizar las siguientes accciones:
+### Los usuarios ya registrados pueden realizar las siguientes accciones:
 
     · Las funciones mencionadas anteriormente.
 
@@ -65,7 +65,7 @@ Los usuarios ya registrados pueden realizar las siguientes accciones:
     · Desloguearse.
 
 
-El admin / superuser puede realizar las siguientes accciones:
+### El admin / superuser puede realizar las siguientes accciones:
 
     · Las funciones mencionadas anteriormente.
 
