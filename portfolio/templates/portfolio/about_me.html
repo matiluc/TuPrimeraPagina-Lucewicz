@@ -1,0 +1,53 @@
+{% extends 'portfolio/padre.html' %} 
+
+{% load static %}
+
+{% block title %}Acerca de{% endblock %} {# Cambié el título a algo más apropiado #}
+
+{% block contenido %}
+
+<div class="d-flex flex-column min-vh-100">
+
+  <div class="container-fluid mt-5 pb-3 text-center d-flex flex-column align-items-center">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center mb-4" 
+       style="width: 50px; height: 50px; font-size: 1.2rem;">
+      <i class="bi bi-x-lg"></i>
+    </a> 
+
+    <div>
+      <p class="text-decoration-none text-dark fw-bold fs-3" style="letter-spacing: 5px; font-family: 'DM Serif Display', serif;">MATIAS LUCEWICZ</a>
+      <span class="d-block text-muted text-uppercase fs-6 mt-2" style="letter-spacing: 2px;">DISEÑADOR GRÁFICO UBA</span>
+    </div>
+  </div>
+
+  <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-center px-3 px-md-5">
+    <div class="container text-center">
+      <figure class="mb-5">
+        <img src="{% static 'portfolio/img/about.jpg' %}" alt="About Joana Mertz" class="img-fluid rounded shadow" style="max-width: 300px; height: auto;">
+      </figure>
+      
+      <article class="col-md-8 col-lg-6 mx-auto mb-5">
+        <p class="lead fw-normal lh-lg fs-6">
+          Hola! Me recibí en la Universidad de Buenos Aires en el 2018 en la carrera de Diseño Gráfico, aunque tengo 19 años de experiencia en el rubro.
+          Actualmente mi vocación por el diseño está orientada a brindar una buena experiencia de usuario, lo que me ha llevado a explorar una amplia variedad de áreas de interés, como la programación y la automatización.
+          En estos momentos, estoy aprendiendo el lenguaje de programación Python, el framework Django, y los estilos de Bootstrap.
+          <br>Gracias por pasar por mi web!
+        </p>
+      </article>
+
+      <div class="mb-5">
+        <span class="d-block text-muted mb-2 fs-5">Contactame</span>
+        <a href="mailto:hello@mjoana.com" class="text-dark fw-bold text-decoration-underline-hover fs-5">lucewicz@gmail.com</a>
+        
+        <ul class="list-unstyled d-flex justify-content-center mt-3">
+          <li class="mx-3"><a href="#" target="_blank" class="text-dark fs-4"><i class="ri-behance-line"></i></a></li>
+          <li class="mx-3"><a href="#" target="_blank" class="text-dark fs-4"><i class="ri-dribbble-line"></i></a></li>
+          <li class="mx-3"><a href="#" target="_blank" class="text-dark fs-4"><i class="ri-instagram-fill"></i></a></li>
+          <li class="mx-3"><a href="#" target="_blank" class="text-dark fs-4"><i class="ri-pinterest-line"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+
+{% endblock %}

@@ -15,6 +15,7 @@ urlpatterns = [
     path("receta/<int:pk>/", views.detalle_receta, name="detalle_receta"), # RECETAS INDIVIDUALES
     path('pauta', views.pauta, name='pauta'), # PAUTA
     path('buscador/', views.buscador, name='buscador'), # BUSCADOR
+    path('about_me/', views.about_me, name='about_me'), # ABOUT
 
     # CREAR
     path('crear_receta', views.crear_receta, name='crear_receta'), # RECETA NUEVA

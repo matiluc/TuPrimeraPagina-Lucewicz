@@ -40,6 +40,10 @@ def pauta(request):
     return render(request, "portfolio/pauta.html")
 
 
+def about_me(request):
+    return render(request, "portfolio/about_me.html")
+
+
 # INCLUYE SUSCRIPCIÓN AL NEWSLETTER Y CONTADORES
 def index(request):
     if request.method == 'POST':
@@ -54,6 +58,7 @@ def index(request):
     context = {
         'total_recetas': Receta.objects.count(),
         'total_suscriptores': Suscriptor.objects.count(),
+        'total_usuarios': User.objects.count(),
         'form': form
     }
     return render(request, 'portfolio/index.html', context)
