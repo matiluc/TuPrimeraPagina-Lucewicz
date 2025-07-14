@@ -18,13 +18,13 @@
                 </div>
             {% endif %}
             <div class="text-end"> {# ¡Añade class="text-end" aquí! #}
-                <p style="font-size: small;">Publicado por <a href="{% url 'perfil_publico' receta.autor.username %}" style="color: purple" class="text-decoration-none fw-bold" >{{ receta.autor.username }}</a> el {{ receta.fecha }}</p>
+                <p style="font-size: medium;">Publicado por <a href="{% url 'perfil_publico' receta.autor.username %}" style="color: purple" class="text-decoration-none fw-bold" >{{ receta.autor.username }}</a> el {{ receta.fecha }}</p>
             </div>
             <h1 class="mb-3 fw-bolder">{{ receta.titulo }}</h1>
 
             {% if receta.categorias %}
                 {% for categoria_display in receta.get_categorias_display %}
-                    <span class="badge bg-secondary me-1">{{ categoria_display }}</span>
+                    <span class="badge bg-gris me-1" style="background-color: #9b9b9b !important;">{{ categoria_display }}</span>
                 {% endfor %}     
             {% else %}
                 <p>Sin categorías.</p>
