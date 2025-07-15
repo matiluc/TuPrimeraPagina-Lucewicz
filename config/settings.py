@@ -154,5 +154,5 @@ CKEDITOR_UPLOAD_PATH = "/media/"
 
 
 LOGIN_URL = '/usuario/login/'
-LOGIN_REDIRECT_URL = '/' # Puedes cambiar esto a donde quieras que el usuario vaya después de loguearse
-LOGOUT_REDIRECT_URL = '/' # Puedes cambiar esto a donde quieras que el usuario vaya después de cerrar sesión
+LOGIN_REDIRECT_URL = '/' 
+LOGOUT_REDIRECT_URL = '/'
