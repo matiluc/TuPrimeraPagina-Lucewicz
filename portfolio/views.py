@@ -440,7 +440,7 @@ def perfil_publico(request, username):
 
 
 # MUESTRA TABLA DE RECETAS, SUPERUSER LAS VE TODAS NO IMPORTA USUARIO, SINO, SOLO SE VEN LAS CREADAS POR UNO MISMO
-@user_passes_test(solo_superuser)
+@login_required
 def tabla_edicion_recetas(request):
     if request.user.is_superuser:
         recetas = Receta.objects.all().order_by('-id')
