@@ -52,6 +52,10 @@ class SuscriptorForm(forms.ModelForm):
 # FORM CREACIÓN USUARIO
 
 class UserRegisterForm(UserCreationForm):
+    username = forms.CharField(
+        label="Nombre de usuario",
+        widget=forms.TextInput(attrs={'placeholder': 'Nombre de usuario', 'class': 'form-control'})
+    )
     email = forms.EmailField(
         label="Email",
         widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'})

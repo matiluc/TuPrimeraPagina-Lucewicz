@@ -84,7 +84,15 @@ def login_request(request):
                 messages.error(request, 'Usuario o contraseña incorrectos.')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos.')
-    form = AuthenticationForm()
+    else:
+        form = AuthenticationForm()
+
+    form.fields['username'].widget.attrs['placeholder'] = 'Nombre de usuario'
+    form.fields['username'].widget.attrs['class'] = 'form-control'
+    form.fields['password'].widget.attrs['placeholder'] = 'Contraseña'
+    form.fields['password'].widget.attrs['class'] = 'form-control'
+    # ------------------------------------------------------------------
+
     return render(request, 'portfolio/usuario/login.html', {"form": form})
 
 
